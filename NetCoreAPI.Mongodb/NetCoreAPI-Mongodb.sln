@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NetCoreAPI.Mongodb", "NetCoreAPI.Mongodb", "{F6676A13-59C8-4510-BF74-9952EED08A32}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCoreAPI-Mongodb", "NetCoreAPI-Mongodb\NetCoreAPI-Mongodb.csproj", "{B3FB7F3A-2B74-49A5-B277-ACB9660F53B2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B3FB7F3A-2B74-49A5-B277-ACB9660F53B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3FB7F3A-2B74-49A5-B277-ACB9660F53B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3FB7F3A-2B74-49A5-B277-ACB9660F53B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3FB7F3A-2B74-49A5-B277-ACB9660F53B2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B3FB7F3A-2B74-49A5-B277-ACB9660F53B2} = {F6676A13-59C8-4510-BF74-9952EED08A32}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {65D12F7F-D998-4798-87B9-735C0E1016FC}
+	EndGlobalSection
+EndGlobal
