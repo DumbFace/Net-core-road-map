@@ -1,34 +1,34 @@
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
+using NetCoreAPI_Mongodb.Controllers.BaseController;
 
-namespace NetCoreAPI_Mongodb.Controllers;
-
-[ApiController]
-[ApiVersion(1.0)]
-[Route("[controller]")]
-public class WeatherForecastController : ControllerBase
+namespace NetCoreAPI_Mongodb.Controllers.Api.v1
 {
-    private static readonly string[] Summaries = new[]
+    public class WeatherForecastController : BaseController_v1
     {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+        private static readonly string[] Summaries = new[]
+        {
+        "Freezing" , "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
     };
 
-    private readonly ILogger<WeatherForecastController> _logger;
+        private readonly ILogger<WeatherForecastController> _logger;
 
-    public WeatherForecastController(ILogger<WeatherForecastController> logger)
-    {
-        _logger = logger;
-    }
-
-    [HttpGet(Name = "GetWeatherForecast")]
-    public IEnumerable<WeatherForecast> Get()
-    {
-        return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+        public WeatherForecastController(ILogger<WeatherForecastController> logger)
         {
-            Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-        })
-        .ToArray();
+            _logger = logger;
+        }
+
+        [HttpGet(Name = "GetWeatherForecast")]
+        public IEnumerable<WeatherForecast> Get()
+        {
+            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            {
+                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+                TemperatureC = Random.Shared.Next(-20, 55),
+                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+            })
+            .ToArray();
+        }
     }
+
 }

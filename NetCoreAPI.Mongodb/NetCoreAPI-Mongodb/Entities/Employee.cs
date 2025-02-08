@@ -27,5 +27,8 @@ namespace NetCoreAPI_Mongodb.Entities
 
         [BsonElement("ip_address"), BsonRepresentation(BsonType.String)]
         public string? IpAddress { get; set; }
+
+        [BsonElement("age"), BsonRepresentation(BsonType.Int32)]
+        public int? Age { get; set; }
     }
 }

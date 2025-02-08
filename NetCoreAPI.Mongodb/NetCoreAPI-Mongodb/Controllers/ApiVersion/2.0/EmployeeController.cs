@@ -11,9 +11,9 @@ using NetCoreAPI_Mongodb.Entities;
 using NetCoreAPI_Mongodb.Models;
 using static NetCoreAPI_Mongodb.Data.MongoDBService;
 
-namespace NetCoreAPI_Mongodb.Controllers.Api.v1
+namespace NetCoreAPI_Mongodb.Controllers.Api.v2
 {
-    public class EmployeeController : BaseController_v1
+    public class EmployeeController : BaseController_v2
     {
         readonly IMongoCollection<Employee>? employees;
         readonly IMongoCollection<EmployeeWithId>? employeesWithId;
@@ -21,13 +21,14 @@ namespace NetCoreAPI_Mongodb.Controllers.Api.v1
 
         public EmployeeController(MongoDBService mongoDBService, IOptions<MongoDBDatabaseSettings> options, IMapper _mapper)
         {
-            mapper = _mapper;
             employees = mongoDBService.Database?.GetCollection<Employee>(options.Value.EmployeesCollectionName);
             employeesWithId = mongoDBService.Database?.GetCollection<EmployeeWithId>("EmployeesWithId");
             if (employees == null)
             {
                 throw new ArgumentNullException(nameof(employees));
             }
+
+            mapper = _mapper;
         }
 
         [HttpGet]
@@ -65,10 +66,10 @@ namespace NetCoreAPI_Mongodb.Controllers.Api.v1
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create(EmployeeDTO employeeDTO)
+        public async Task<ActionResult> Create(EmployeeDTO_v2 employeeDTO)
         {
             var employee = mapper.Map<Employee>(employeeDTO);
-            await employees.InsertOneAsync(employee);
+            await employees.InsertOneAsync(employee); 
             return CreatedAtAction(nameof(GetById), new { id = employee.Id }, employee);
         }
 
