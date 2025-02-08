@@ -6,3 +6,4 @@
 /NetCoreAPI.Mongodb/NetCoreAPI-Mongodb/obj
 *.user
 /NetCoreAPI.Mongodb/.vs
+/NetCoreAPI.Mongodb/NetCoreAPI-Mongodb/bin/Debug/net8.0
