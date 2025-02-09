@@ -1,5 +1,6 @@
 using Common.Common.MapperProfile;
 using Infrastucture.EFCore;
+using Infrastucture.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using NetCoreAPI_Mongodb.Data;
@@ -9,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSwaggerGen(c =>
 {
+    c.CustomSchemaIds(type => type.ToString());
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API V1", Version = "v1" });
     c.SwaggerDoc("v2", new OpenApiInfo { Title = "My API V2", Version = "v2" });
 });
@@ -22,6 +24,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<MongoDBService>();
 builder.Services.AddAutoMapper(typeof(MapperProfile).Assembly);
 
+builder.Services.AddScoped<IUnitOfWork<ExampleDbContext>, UnitOfWork<ExampleDbContext>>();
+
+
 builder.Services.Configure<MongoDBDatabaseSettings>(
     builder.Configuration.GetSection("MongoDB"));
 
@@ -33,6 +38,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
+        c.DefaultModelsExpandDepth(-1);
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
         c.SwaggerEndpoint("/swagger/v2/swagger.json", "My API V2");
     });

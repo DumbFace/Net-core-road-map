@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Common.Common.Models;
 using Infrastucture.Domain.Mongo.Entities;
+using Infrastucture.EFCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
@@ -15,8 +16,9 @@ namespace NetCoreAPI_Mongodb.Controllers.Api.v2
         readonly IMongoCollection<Employee>? employees;
         readonly IMongoCollection<EmployeeWithId>? employeesWithId;
         readonly IMapper mapper;
+        readonly ExampleDbContext _dbContext;
 
-        public EmployeeController(MongoDBService mongoDBService, IOptions<MongoDBDatabaseSettings> options, IMapper _mapper)
+        public EmployeeController(MongoDBService mongoDBService, IOptions<MongoDBDatabaseSettings> options, IMapper _mapper, ExampleDbContext dbContext)
         {
             employees = mongoDBService.Database?.GetCollection<Employee>(options.Value.EmployeesCollectionName);
             employeesWithId = mongoDBService.Database?.GetCollection<EmployeeWithId>("EmployeesWithId");
@@ -24,7 +26,7 @@ namespace NetCoreAPI_Mongodb.Controllers.Api.v2
             {
                 throw new ArgumentNullException(nameof(employees));
             }
-
+            _dbContext = dbContext;
             mapper = _mapper;
         }
 
