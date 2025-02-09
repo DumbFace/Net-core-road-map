@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Infrastucture.Entites
 {
-    [Table("Employes")]
+    [Table("Employees")]
     public class Employee : BaseEntity
     {
         [MaxLength(50)]

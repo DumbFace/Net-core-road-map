@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -12,8 +13,9 @@ namespace Infrastucture.Entites
         [Key]
         public Guid Id { get; set; }
 
-        public DateTime? CreatedTime { get; set; }
+        public DateTime? CreatedTime { get; set; } = DateTime.Now;
 
-        public bool IsDeleted { get; set; }
+        [DefaultValue(false)]
+        public bool IsDeleted { get; set; } = false;
     }
 }
