@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastucture.Migrations
 {
     [DbContext(typeof(ExampleDbContext))]
-    [Migration("20250209031325_initDB")]
+    [Migration("20250209035228_initDB")]
     partial class initDB
     {
         /// <inheritdoc />
@@ -32,12 +32,12 @@ namespace Infrastucture.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Address")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("City")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime?>("CreatedTime")
                         .HasColumnType("datetime2");
@@ -61,12 +61,12 @@ namespace Infrastucture.Migrations
                         .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("email")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Employes");
+                    b.ToTable("Employees");
                 });
 #pragma warning restore 612, 618
         }

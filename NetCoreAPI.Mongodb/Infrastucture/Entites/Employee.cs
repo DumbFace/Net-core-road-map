@@ -19,11 +19,11 @@ namespace Infrastucture.Entites
         //Female = 2
         public Gender Gender { get; set; }
 
-        [MaxLength(20)]
+        [MaxLength(100)]
         [AllowNull]
         public string Address { get; set; }
 
-        [MaxLength(20)]
+        [MaxLength(100)]
         [AllowNull]
         public string City { get; set; }
 
@@ -32,7 +32,7 @@ namespace Infrastucture.Entites
         [Phone]
         public string PhoneNumber { get; set; }
 
-        [MaxLength(20)]
+        [MaxLength(100)]
         [AllowNull]
         [EmailAddress]
         public string email { get; set; }
