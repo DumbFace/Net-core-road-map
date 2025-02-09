@@ -1,4 +1,4 @@
-﻿using Infrastucture.Entites;
+﻿using Infrastucture.Domain.EFCore.Entites;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastucture.EFCore
@@ -10,7 +10,7 @@ namespace Infrastucture.EFCore
 
         }
 
-        public DbSet<Employee> Employees{ get; set; }
+        public DbSet<Employee> Employees { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -1,7 +1,4 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson;
-
-namespace NetCoreAPI_Mongodb.Models
+﻿namespace Common.Common.Models
 {
     public class EmployeeDTO
     {

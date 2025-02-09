@@ -1,9 +1,8 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson;
-using System.Runtime.Serialization;
-namespace NetCoreAPI_Mongodb.Entities
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+namespace Infrastucture.Domain.Mongo.Entities
 {
-    public class Employee
+    public class EmployeeWithId
     {
         //[BsonId]
         //[BsonElement("_id"), BsonRepresentation(BsonType.ObjectId)]
@@ -11,9 +10,13 @@ namespace NetCoreAPI_Mongodb.Entities
 
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string? Id { get; set; }
+        public string? _id { get; set; }
 
+        [BsonElement("id"), BsonRepresentation(BsonType.Int64)]
+
+        public int? Id { get; set; }
         [BsonElement("first_name"), BsonRepresentation(BsonType.String)]
+
         public string? FirstName { get; set; }
 
         [BsonElement("last_name"), BsonRepresentation(BsonType.String)]
@@ -27,8 +30,5 @@ namespace NetCoreAPI_Mongodb.Entities
 
         [BsonElement("ip_address"), BsonRepresentation(BsonType.String)]
         public string? IpAddress { get; set; }
-
-        [BsonElement("age"), BsonRepresentation(BsonType.Int32)]
-        public int? Age { get; set; }
     }
 }

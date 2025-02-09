@@ -9,3 +9,9 @@
 /NetCoreAPI.Mongodb/NetCoreAPI-Mongodb/bin/Debug/net8.0
 /NetCoreAPI.Mongodb/Infrastucture/obj
 /NetCoreAPI.Mongodb/Infrastucture/bin/Debug/net8.0
+/NetCoreAPI.Mongodb/Common/bin
+/NetCoreAPI.Mongodb/Common/obj
+/NetCoreAPI.Mongodb/Domain/bin
+/NetCoreAPI.Mongodb/Domain/obj
+/NetCoreAPI.Mongodb/Services/bin
+/NetCoreAPI.Mongodb/Services/obj

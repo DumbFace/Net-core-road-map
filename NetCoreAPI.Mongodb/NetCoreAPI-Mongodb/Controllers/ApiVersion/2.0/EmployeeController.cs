@@ -1,14 +1,11 @@
-﻿using Asp.Versioning;
-using AutoMapper;
-using DnsClient.Protocol;
-using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Common.Common.Models;
+using Infrastucture.Domain.Mongo.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using NetCoreAPI_Mongodb.Controllers.BaseController;
 using NetCoreAPI_Mongodb.Data;
-using NetCoreAPI_Mongodb.Entities;
-using NetCoreAPI_Mongodb.Models;
 using static NetCoreAPI_Mongodb.Data.MongoDBService;
 
 namespace NetCoreAPI_Mongodb.Controllers.Api.v2
@@ -69,7 +66,7 @@ namespace NetCoreAPI_Mongodb.Controllers.Api.v2
         public async Task<ActionResult> Create(EmployeeDTO_v2 employeeDTO)
         {
             var employee = mapper.Map<Employee>(employeeDTO);
-            await employees.InsertOneAsync(employee); 
+            await employees.InsertOneAsync(employee);
             return CreatedAtAction(nameof(GetById), new { id = employee.Id }, employee);
         }
 

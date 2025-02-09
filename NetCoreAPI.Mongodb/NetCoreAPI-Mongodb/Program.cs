@@ -1,8 +1,8 @@
+using Common.Common.MapperProfile;
 using Infrastucture.EFCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using NetCoreAPI_Mongodb.Data;
-using NetCoreAPI_Mongodb.MapperProfile;
 using static NetCoreAPI_Mongodb.Data.MongoDBService;
 
 var builder = WebApplication.CreateBuilder(args);

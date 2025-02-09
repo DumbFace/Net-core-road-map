@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using NetCoreAPI_Mongodb.Entities;
-using NetCoreAPI_Mongodb.Models;
+using Common.Common.Models;
+using Infrastucture.Domain.EFCore.Entites;
 
-namespace NetCoreAPI_Mongodb.MapperProfile
+namespace Common.Common.MapperProfile
 {
     public class MapperProfile : Profile
     {

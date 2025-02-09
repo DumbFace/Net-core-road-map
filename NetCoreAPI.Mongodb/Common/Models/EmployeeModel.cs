@@ -1,4 +1,4 @@
-﻿namespace NetCoreAPI_Mongodb.Models
+﻿namespace Common.Common.Models
 {
     public class EmployeeModel
     {
