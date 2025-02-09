@@ -7,3 +7,5 @@
 *.user
 /NetCoreAPI.Mongodb/.vs
 /NetCoreAPI.Mongodb/NetCoreAPI-Mongodb/bin/Debug/net8.0
+/NetCoreAPI.Mongodb/Infrastucture/obj
+/NetCoreAPI.Mongodb/Infrastucture/bin/Debug/net8.0
