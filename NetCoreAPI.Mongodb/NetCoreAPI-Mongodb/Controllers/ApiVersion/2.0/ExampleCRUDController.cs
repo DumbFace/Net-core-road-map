@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Infrastucture.Domain.EFCore.Entites;
+﻿using Infrastucture.Domain.EFCore.Entites;
 using Infrastucture.EFCore;
 using Infrastucture.UnitOfWork;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace NetCoreAPI_Mongodb.Controllers.BaseController
 {

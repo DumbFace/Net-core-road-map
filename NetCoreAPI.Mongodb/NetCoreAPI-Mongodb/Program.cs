@@ -17,6 +17,9 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddDbContext<ExampleDbContext>(options =>
   options.UseSqlServer(builder.Configuration.GetConnectionString("ExampleDbContext")));
 
+builder.Services.AddDbContext<SecondDbContext>(options =>
+  options.UseSqlServer(builder.Configuration.GetConnectionString("SecondDbContext")));
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -24,7 +27,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<MongoDBService>();
 builder.Services.AddAutoMapper(typeof(MapperProfile).Assembly);
 
-builder.Services.AddScoped<IUnitOfWork<ExampleDbContext> , UnitOfWork<ExampleDbContext>>();
+builder.Services.AddScoped<IUnitOfWork<ExampleDbContext>, UnitOfWork<ExampleDbContext>>();
 
 
 builder.Services.Configure<MongoDBDatabaseSettings>(

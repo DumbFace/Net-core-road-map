@@ -3,7 +3,7 @@ using Infrastucture.Repository.Base;
 
 namespace Infrastucture.Repository.EmployeeRepository
 {
-    public interface IEmployeeRepository : IRepository<Employee>
+    public interface ICountryRepository : IRepository<Employee>
     {
     }
 }

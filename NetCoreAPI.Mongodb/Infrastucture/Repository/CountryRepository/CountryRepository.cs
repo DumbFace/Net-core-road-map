@@ -1,11 +1,11 @@
-﻿using Infrastucture.Domain.EFCore.Entites;
+﻿using Domain.EFCore.Entites;
 using Infrastucture.EFCore;
 using Infrastucture.Repository.Base;
 using Infrastucture.UnitOfWork;
 
-namespace Infrastucture.Repository.EmployeeRepository
+namespace Infrastucture.Repository.CountryRepository
 {
-    public class CountryRepository : Repository<Employee>, ICountryRepository
+    public class CountryRepository : Repository<Country>, ICountryRepository
     {
         public CountryRepository(IUnitOfWork<ExampleDbContext> unitOfWork) : base(unitOfWork)
         {

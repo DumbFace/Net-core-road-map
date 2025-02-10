@@ -1,5 +1,4 @@
-﻿using Infrastucture.EFCore;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Infrastucture.UnitOfWork
