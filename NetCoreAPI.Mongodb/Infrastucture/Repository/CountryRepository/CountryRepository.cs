@@ -1,14 +1,18 @@
 ﻿using Domain.EFCore.Entites;
 using Infrastucture.EFCore;
 using Infrastucture.Repository.Base;
-using Infrastucture.UnitOfWork;
 
 namespace Infrastucture.Repository.CountryRepository
 {
-    public class CountryRepository : Repository<Country>, ICountryRepository
+    public class CountryRepository : Repository<Country, SecondDbContext>, ICountryRepository
     {
-        public CountryRepository(IUnitOfWork<ExampleDbContext> unitOfWork) : base(unitOfWork)
+        //public CountryRepository(IUnitOfWork<ExampleDbContext> unitOfWork) : base(unitOfWork)
+        //{
+        //}
+
+        public CountryRepository(SecondDbContext context) : base(context)
         {
+            System.Diagnostics.Debug.WriteLine($"Country Repository context ID:  {context.ContextId}");
         }
     }
 }

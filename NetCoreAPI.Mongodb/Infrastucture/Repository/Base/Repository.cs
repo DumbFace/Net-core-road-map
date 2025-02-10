@@ -1,37 +1,41 @@
-﻿using Infrastucture.EFCore;
-using Infrastucture.UnitOfWork;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Infrastucture.Repository.Base
 {
-    public class Repository<T> : IRepository<T>, IDisposable where T : class
+    public class Repository<T, TContext> : IRepository<T, TContext>, IDisposable where T
+                                         : class where TContext : DbContext
     {
-        private DbSet<T> _entities;
+
+        private TContext _context;
+
+        public TContext Context { get => _context; }
+
+        private DbSet<T> _entity;
+        public DbSet<T> Entity { get => _entity; }
+
+        //TContext IRepository<T, TContext>.Context { get => _context; }
+        //DbSet<T> IRepository<T, TContext>.Entity { get => _entity; }
+
         private string _errorMessage = string.Empty;
         private bool _isDisposed;
-        //While Creating an Instance of GenericRepository, we need to pass the UnitOfWork instance
-        //That UnitOfWork instance contains the Context Object that our GenericRepository is going to use
-        public Repository(IUnitOfWork<ExampleDbContext> unitOfWork)
-            : this(unitOfWork.Context)
-        {
-        }
 
         //If you don't want to use Unit of Work, then use the following Constructor 
         //which takes the context Object as a parameter
-        public Repository(ExampleDbContext context)
+        public Repository(TContext context)
         {
             //Initialize _isDisposed to false and then set the Context Object
             _isDisposed = false;
-            Context = context;
+            _context = context;
+            _entity = context.Set<T>();
+            System.Diagnostics.Debug.WriteLine($"Context ID Repository: {Context.ContextId}");
         }
         //The following Property is going to return the Context Object
-        public ExampleDbContext Context { get; set; }
 
         //The following Property is going to set and return the Entity
-        protected virtual DbSet<T> Entities
-        {
-            get { return _entities ?? (_entities = Context.Set<T>()); }
-        }
+        //protected virtual DbSet<T> Entities
+        //{
+        //    get { return _entities ?? (_entities = Context.Set<T>()); }
+        //}
         //The following Method is going to Dispose of the Context Object
         public void Dispose()
         {
@@ -42,12 +46,12 @@ namespace Infrastucture.Repository.Base
         //Return all the Records from the Corresponding Table
         public virtual IEnumerable<T> GetAll()
         {
-            return Entities.ToList();
+            return Entity.ToList();
         }
         //Return a Record from the Coresponding Table based on the Primary Key
         public virtual T GetById(object id)
         {
-            return Entities.Find(id);
+            return Entity.Find(id);
         }
         //The following Method is going to Insert a new entity into the table
         public virtual void Insert(T entity)
@@ -63,7 +67,7 @@ namespace Infrastucture.Repository.Base
                 {
                     //Context = new ExampleDbContext();
                 }
-                Entities.Add(entity);
+                Entity.Add(entity);
                 //commented out call to SaveChanges as Context save changes will be
                 //called with Unit of work
                 //Context.SaveChanges(); 
@@ -114,7 +118,7 @@ namespace Infrastucture.Repository.Base
                     //Context = new ExampleDbContext();
                 }
 
-                Entities.Remove(entity);
+                Entity.Remove(entity);
                 //commented out call to SaveChanges as Context save changes will be called with Unit of work
                 //Context.SaveChanges(); 
             }

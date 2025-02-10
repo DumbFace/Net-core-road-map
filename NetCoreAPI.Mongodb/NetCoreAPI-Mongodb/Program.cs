@@ -1,5 +1,8 @@
 using Common.Common.MapperProfile;
+using Infrastucture.Domain.EFCore.Entites;
 using Infrastucture.EFCore;
+using Infrastucture.Repository.Base;
+using Infrastucture.Repository.EmployeeRepository;
 using Infrastucture.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -18,7 +21,9 @@ builder.Services.AddDbContext<ExampleDbContext>(options =>
   options.UseSqlServer(builder.Configuration.GetConnectionString("ExampleDbContext")));
 
 builder.Services.AddDbContext<SecondDbContext>(options =>
-  options.UseSqlServer(builder.Configuration.GetConnectionString("SecondDbContext")));
+  options.UseSqlServer(builder.Configuration.GetConnectionString("SecondDbContext")),
+  ServiceLifetime.Scoped
+  );
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -28,6 +33,11 @@ builder.Services.AddSingleton<MongoDBService>();
 builder.Services.AddAutoMapper(typeof(MapperProfile).Assembly);
 
 builder.Services.AddScoped<IUnitOfWork<ExampleDbContext>, UnitOfWork<ExampleDbContext>>();
+builder.Services.AddScoped<IUnitOfWork<SecondDbContext>, UnitOfWork<SecondDbContext>>();
+
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+
+builder.Services.AddScoped<IRepository<Employee, ExampleDbContext>, Repository<Employee, ExampleDbContext>>();
 
 
 builder.Services.Configure<MongoDBDatabaseSettings>(

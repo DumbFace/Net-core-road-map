@@ -17,7 +17,6 @@ namespace Infrastucture.EFCore
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<Employee>();
         }
     }
 }

@@ -1,10 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Infrastucture.Repository.EmployeeRepository;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastucture.UnitOfWork
 {
-    public interface IUnitOfWork<out TContext> where TContext : DbContext
+    public interface IUnitOfWork<TContext> where TContext : DbContext
         //public interface IUnitOfWork<out TContext> where TContext : DbContext
     {
+        public IEmployeeRepository Employees { get; }
+
         //The following Property is going to hold the context object
         public TContext Context { get; }
         //Start the database Transaction

@@ -8,29 +8,24 @@ namespace Infrastucture.UnitOfWork
     public class UnitOfWork<TContext> : IUnitOfWork<TContext>, IDisposable where TContext : DbContext
     {
         private bool _disposed;
-        //private readonly TContext _context;
+        private readonly TContext _context;
+        public TContext Context { get => _context; }
         private string _errorMessage = string.Empty;
         //The following Object is going to hold the Transaction Object
-        public TContext Context { get; set; }
+
 
         private IDbContextTransaction _objTran;
         //private ExampleDbContext _dbContext;
- 
+
         //Using the Constructor we are initializing the Context Property which is declared in the IUnitOfWork Interface
         //This is nothing but we are storing the DBContext (EmployeeDBContext) object in Context Property
 
         public UnitOfWork(
-            DbContextOptions<TContext> options , 
-            //ExampleDbContext dbContext,
+            DbContextOptions<TContext> options,
             TContext context
             )
         {
-            //var optionsBuilder = new DbContextOptionsBuilder<ExampleDbContext>();
-            //optionsBuilder.UseSqlServer("YourConnectionString");
-            //DbContextOptions options = new();
-            Context = (TContext)Activator.CreateInstance(typeof(TContext), options);
-            //_dbContext = dbContext;
-            Context = context;
+            _context = context;
             System.Diagnostics.Debug.WriteLine($"Context ID UnitOfWork: {Context.ContextId}");
         }
         //The Dispose() method is used to free unmanaged resources like files, 
@@ -45,9 +40,7 @@ namespace Infrastucture.UnitOfWork
 
         private IEmployeeRepository _employeeRepository;
 
-        //public IEmployeeRepository Employees { get { return _employeeRepository ??= new EmployeeRepository(_dbContext); } }
-
-        public IEmployeeRepository Test { get { return _employeeRepository ??= new EmployeeRepository<TContext>(Context); } }
+        public IEmployeeRepository Employees { get { return _employeeRepository ??= new EmployeeRepository(_context as ExampleDbContext); } }
 
         //The CreateTransaction() method will create a database Transaction so that we can do database operations
         //by applying do everything and do nothing principle
