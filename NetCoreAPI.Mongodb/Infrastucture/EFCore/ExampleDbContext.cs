@@ -7,11 +7,6 @@ namespace Infrastucture.EFCore
     {
         public ExampleDbContext(DbContextOptions options) : base(options)
         {
-
-        }
-
-        public ExampleDbContext() : base()
-        {
         }
 
         public DbSet<Employee> Employees { get; set; }

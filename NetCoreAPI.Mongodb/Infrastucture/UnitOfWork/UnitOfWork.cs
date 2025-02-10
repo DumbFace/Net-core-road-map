@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Infrastucture.EFCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Infrastucture.UnitOfWork
 {
-    public class UnitOfWork<TContext> : IUnitOfWork<TContext>, IDisposable where TContext : DbContext, new()
+    public class UnitOfWork<TContext> : IUnitOfWork<TContext>, IDisposable where TContext : DbContext
     {
         private bool _disposed;
         private string _errorMessage = string.Empty;
@@ -12,9 +13,13 @@ namespace Infrastucture.UnitOfWork
 
         //Using the Constructor we are initializing the Context Property which is declared in the IUnitOfWork Interface
         //This is nothing but we are storing the DBContext (EmployeeDBContext) object in Context Property
-        public UnitOfWork()
+
+        public UnitOfWork(DbContextOptions<TContext> options)
         {
-            Context = new TContext();
+            //var optionsBuilder = new DbContextOptionsBuilder<ExampleDbContext>();
+            //optionsBuilder.UseSqlServer("YourConnectionString");
+            //DbContextOptions options = new();
+            Context = (TContext)Activator.CreateInstance(typeof(TContext), options);
         }
         //The Dispose() method is used to free unmanaged resources like files, 
         //database connections etc. at any time.
@@ -25,7 +30,7 @@ namespace Infrastucture.UnitOfWork
         }
         //The Context property will return the DBContext object i.e. (EmployeeDBContext) object
         //This Property is declared inside the Parent Interface and Initialized through the Constructor
-        public TContext Context { get; }
+        public TContext Context { get; set; }
         //The CreateTransaction() method will create a database Transaction so that we can do database operations
         //by applying do everything and do nothing principle
         public void CreateTransaction()

@@ -2,9 +2,8 @@
 
 namespace Infrastucture.UnitOfWork
 {
-    public interface IUnitOfWork<out TContext> where TContext : DbContext, new()
-    //public interface IUnitOfWork<out TContext> where TContext : DbContext
-
+    public interface IUnitOfWork<out TContext> where TContext : DbContext
+        //public interface IUnitOfWork<out TContext> where TContext : DbContext
     {
         //The following Property is going to hold the context object
         public TContext Context { get; }

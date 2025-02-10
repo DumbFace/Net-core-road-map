@@ -24,7 +24,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<MongoDBService>();
 builder.Services.AddAutoMapper(typeof(MapperProfile).Assembly);
 
-builder.Services.AddScoped<IUnitOfWork<ExampleDbContext>, UnitOfWork<ExampleDbContext>>();
+builder.Services.AddScoped<IUnitOfWork<ExampleDbContext> , UnitOfWork<ExampleDbContext>>();
 
 
 builder.Services.Configure<MongoDBDatabaseSettings>(
@@ -43,15 +43,6 @@ if (app.Environment.IsDevelopment())
         c.SwaggerEndpoint("/swagger/v2/swagger.json", "My API V2");
     });
 }
-
-//using (var scope = app.Services.CreateScope())
-//{
-//    var services = scope.ServiceProvider;
-
-//    var context = services.GetRequiredService<ExampleDbContext>();
-//    context.Database.EnsureCreated();
-//    DbInitializer.Initialize(context);
-//}
 
 app.UseHttpsRedirection();
 

@@ -58,10 +58,10 @@ namespace Infrastucture.Repository.Base
                 {
                     throw new ArgumentNullException("Entity");
                 }
-
+                //TODO
                 if (Context == null || _isDisposed)
                 {
-                    Context = new ExampleDbContext();
+                    //Context = new ExampleDbContext();
                 }
                 Entities.Add(entity);
                 //commented out call to SaveChanges as Context save changes will be
@@ -84,10 +84,10 @@ namespace Infrastucture.Repository.Base
                 {
                     throw new ArgumentNullException("Entity");
                 }
-
+                //TODO
                 if (Context == null || _isDisposed)
                 {
-                    Context = new ExampleDbContext();
+                    //Context = new ExampleDbContext();
                 }
                 Context.Entry(entity).State = EntityState.Modified;
                 //commented out call to SaveChanges as Context save changes will be called with Unit of work
@@ -108,9 +108,10 @@ namespace Infrastucture.Repository.Base
                 {
                     throw new ArgumentNullException("Entity");
                 }
+                //TODO
                 if (Context == null || _isDisposed)
                 {
-                    Context = new ExampleDbContext();
+                    //Context = new ExampleDbContext();
                 }
 
                 Entities.Remove(entity);

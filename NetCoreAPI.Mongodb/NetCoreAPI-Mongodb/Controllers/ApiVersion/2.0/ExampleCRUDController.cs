@@ -13,12 +13,11 @@ namespace NetCoreAPI_Mongodb.Controllers.BaseController
 {
     public class ExampleCRUDController : BaseController_v2
     {
-        private readonly ExampleDbContext _context;
-        private readonly IUnitOfWork<ExampleDbContext> _unitOfWork;
+        public ExampleDbContext _context;
+        public IUnitOfWork<ExampleDbContext> _unitOfWork;
 
-        public ExampleCRUDController(ExampleDbContext context, IUnitOfWork<ExampleDbContext> unitOfWork)
+        public ExampleCRUDController(IUnitOfWork<ExampleDbContext> unitOfWork)
         {
-            _context = context;
             _unitOfWork = unitOfWork;
         }
 
@@ -26,7 +25,9 @@ namespace NetCoreAPI_Mongodb.Controllers.BaseController
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Employee>>> GetEmployees()
         {
+            //var employees = await _context.Employees.ToListAsync();
             var employees = await _unitOfWork.Context.Employees.ToListAsync();
+
             return employees;
         }
 
