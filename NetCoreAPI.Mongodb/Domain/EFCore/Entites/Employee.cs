@@ -1,11 +1,12 @@
-﻿using Infrastucture.Domain.Enum;
+﻿using Domain.EFCore.Entites;
+using Infrastucture.Domain.Enum;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Infrastucture.Domain.EFCore.Entites
 {
-    [Table("Employees")]
+    [Table("Employee")]
     public class Employee : BaseEntity
     {
         [MaxLength(50)]
@@ -37,5 +38,14 @@ namespace Infrastucture.Domain.EFCore.Entites
         [AllowNull]
         [EmailAddress]
         public string email { get; set; }
+
+        //public ICollection<Project> Projects{ get; set; }
+
+        //public Guid EmployeeProjectId { get; set; }
+
+        //public EmployeeProject EmployeeProject { get; set; }
+
+        public ICollection<EmployeeProject> EmployeeProjects { get; set; }
+
     }
 }

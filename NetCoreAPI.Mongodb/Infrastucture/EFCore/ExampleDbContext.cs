@@ -14,7 +14,9 @@ namespace Infrastucture.EFCore
 
         public DbSet<Country> Countries { get; set; }
 
+        public DbSet<Project> Projects { get; set; }
 
+        public DbSet<EmployeeProject> EmployeeProjects { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
         }

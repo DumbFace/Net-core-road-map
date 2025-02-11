@@ -1,4 +1,6 @@
-﻿using Infrastucture.Domain.EFCore.Entites;
+﻿using AutoMapper;
+using Common.Common.Models;
+using Infrastucture.Domain.EFCore.Entites;
 using Infrastucture.EFCore;
 using Infrastucture.Repository.Base;
 using Infrastucture.Repository.EmployeeRepository;
@@ -12,18 +14,22 @@ namespace NetCoreAPI_Mongodb.Controllers.BaseController
         public IUnitOfWork<ExampleDbContext> _unitOfWork;
         public IEmployeeRepository _employeeRepository;
         public IRepository<Employee, ExampleDbContext> _repositoryEmployee;
+        private readonly IMapper _mapper;
 
         public ExampleCRUDController(
             IUnitOfWork<ExampleDbContext> unitOfWork,
             IEmployeeRepository employeeRepository,
-            IRepository<Employee, ExampleDbContext> repository
+            IRepository<Employee, ExampleDbContext> repository,
+            IMapper mapper
+
             )
         {
             _unitOfWork = unitOfWork;
             _employeeRepository = employeeRepository;
             _repositoryEmployee = repository;
+            _mapper = mapper;
             //_repositoryEmployee
-            System.Diagnostics.Debug.WriteLine($"Context ID Controller 1: {_unitOfWork.Context.ContextId}");
+            //System.Diagnostics.Debug.WriteLine($"Context ID Controller 1: {_unitOfWork.Context.ContextId}");
         }
 
         // GET: api/ExampleCRUD
@@ -31,8 +37,17 @@ namespace NetCoreAPI_Mongodb.Controllers.BaseController
         //public async Task<ActionResult<IEnumerable<Employee>>> GetEmployees()
         public IEnumerable<Employee> GetEmployees()
         {
+            IEnumerable<EmployeeDTO> collection = new List<EmployeeDTO>();
+
+            //collection.Ad
             //var employees = _unitOfWork.Employees.GetAll();
             var employees = _repositoryEmployee.Context.Employees.ToList();
+            var test = _repositoryEmployee
+                        .Context
+                        .Employees
+                        //.Select(_mapper.ProjectTo<EmployeeDTO>)
+                        .Select(employee => _mapper.Map<EmployeeDTO>(employee))
+                        .ToList();
             //_unitOfWork.Employees.
             //var employees = await _context.Employees.ToListAsync();
             //var employees = await _unitOfWork.Context.Employees.ToListAsync();
