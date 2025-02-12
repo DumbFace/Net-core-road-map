@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Common.Common.Models
+namespace Common.Models.Mongo
 {
     public class EmployeeDTO_v2 : EmployeeDTO
     {

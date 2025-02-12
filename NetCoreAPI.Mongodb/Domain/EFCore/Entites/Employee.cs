@@ -39,12 +39,6 @@ namespace Infrastucture.Domain.EFCore.Entites
         [EmailAddress]
         public string email { get; set; }
 
-        //public ICollection<Project> Projects{ get; set; }
-
-        //public Guid EmployeeProjectId { get; set; }
-
-        //public EmployeeProject EmployeeProject { get; set; }
-
         public ICollection<EmployeeProject> EmployeeProjects { get; set; }
 
     }

@@ -10,22 +10,22 @@ namespace Infrastucture.Domain.Mongo.Entities
 
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string? Id { get; set; }
+        public string Id { get; set; }
 
         [BsonElement("first_name"), BsonRepresentation(BsonType.String)]
-        public string? FirstName { get; set; }
+        public string FirstName { get; set; }
 
         [BsonElement("last_name"), BsonRepresentation(BsonType.String)]
-        public string? LastName { get; set; }
+        public string LastName { get; set; }
 
         [BsonElement("email"), BsonRepresentation(BsonType.String)]
-        public string? Email { get; set; }
+        public string Email { get; set; }
 
         [BsonElement("gender"), BsonRepresentation(BsonType.String)]
-        public string? Gender { get; set; }
+        public string Gender { get; set; }
 
         [BsonElement("ip_address"), BsonRepresentation(BsonType.String)]
-        public string? IpAddress { get; set; }
+        public string IpAddress { get; set; }
 
         [BsonElement("age"), BsonRepresentation(BsonType.Int32)]
         public int? Age { get; set; }

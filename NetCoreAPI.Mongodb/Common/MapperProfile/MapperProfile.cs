@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using Common.Common.Models;
+using Common.Models.Bases;
+using Common.Models.Mongo;
 using Infrastucture.Domain.Mongo.Entities;
 using EFCoreEntity = Infrastucture.Domain.EFCore.Entites;
 namespace Common.Common.MapperProfile
@@ -16,6 +17,13 @@ namespace Common.Common.MapperProfile
             CreateMap<EmployeeDTO, EFCoreEntity.Employee>().ReverseMap();
             //CreateMap<EFCoreEntity.Employee, EmployeeDTO>();
             CreateMap<EmployeeDTO_v2, EFCoreEntity.Employee>();
+
+
+
+            //EF Core Entity Employee
+
+            CreateMap<EmployeeModel, EFCoreEntity.Employee>().ReverseMap();
+
         }
     }
 }

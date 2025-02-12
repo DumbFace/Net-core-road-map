@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Common.Common.Models;
+using Common.Models.Bases;
 using Infrastucture.Domain.Mongo.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -62,7 +62,7 @@ namespace NetCoreAPI_Mongodb.Controllers.Api.v1
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create(EmployeeDTO employeeDTO)
+        public async Task<ActionResult> Create(EmployeeModel employeeDTO)
         {
             var employee = mapper.Map<Employee>(employeeDTO);
             await employees.InsertOneAsync(employee);

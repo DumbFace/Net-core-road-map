@@ -20,10 +20,6 @@ namespace Domain.EFCore.Entites
 
         public ProjectStatus Status { get; set; }
 
-        //public ICollection<Employee> Employees { get; set; }
-
-        //public Guid EmployeeProjectId { get; set; }
-
         public ICollection<EmployeeProject> EmployeeProjects { get; set; }
     }
 }

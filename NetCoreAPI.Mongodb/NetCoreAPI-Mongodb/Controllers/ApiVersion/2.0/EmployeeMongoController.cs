@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using Common.Common.Models;
+using Common.Models.Bases;
+using Common.Models.Mongo;
 using Infrastucture.Domain.Mongo.Entities;
 using Infrastucture.EFCore;
 using Microsoft.AspNetCore.Mvc;
@@ -11,14 +12,14 @@ using static NetCoreAPI_Mongodb.Data.MongoDBService;
 
 namespace NetCoreAPI_Mongodb.Controllers.Api.v2
 {
-    public class EmployeeController : BaseController_v2
+    public class EmployeeMongoController : BaseController_v2
     {
         readonly IMongoCollection<Employee>? employees;
         readonly IMongoCollection<EmployeeWithId>? employeesWithId;
         readonly IMapper mapper;
         readonly ExampleDbContext _dbContext;
 
-        public EmployeeController(MongoDBService mongoDBService, IOptions<MongoDBDatabaseSettings> options, IMapper _mapper, ExampleDbContext dbContext)
+        public EmployeeMongoController(MongoDBService mongoDBService, IOptions<MongoDBDatabaseSettings> options, IMapper _mapper, ExampleDbContext dbContext)
         {
             employees = mongoDBService.Database?.GetCollection<Employee>(options.Value.EmployeesCollectionName);
             employeesWithId = mongoDBService.Database?.GetCollection<EmployeeWithId>("EmployeesWithId");

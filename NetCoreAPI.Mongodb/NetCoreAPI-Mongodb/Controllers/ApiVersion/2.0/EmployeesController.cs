@@ -1,55 +1,54 @@
-﻿using AutoMapper;
+﻿using Common.Models.BaseModels;
+using Common.Models.Bases;
+using Domain.EFCore.Entites;
 using Infrastucture.Domain.EFCore.Entites;
 using Infrastucture.EFCore;
-using Infrastucture.Repository.Base;
-using Infrastucture.Repository.EmployeeRepository;
-using Infrastucture.UnitOfWork;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NetCoreAPI_Mongodb.Controllers.BaseController;
 
-namespace NetCoreAPI_Mongodb.Controllers.BaseController
+namespace NetCoreAPI_Mongodb.Controllers.ApiVersion._2._0
 {
-    public class ExampleCRUDController : BaseController_v2
+    public class EmployeesController : BaseController_v2
     {
-        public IUnitOfWork<ExampleDbContext> _unitOfWork;
-        public IEmployeeRepository _employeeRepository;
-        public IRepository<Employee, ExampleDbContext> _repositoryEmployee;
-        private readonly IMapper _mapper;
+        private readonly ExampleDbContext _context;
 
-        public ExampleCRUDController(
-            IUnitOfWork<ExampleDbContext> unitOfWork,
-            IEmployeeRepository employeeRepository,
-            IRepository<Employee, ExampleDbContext> repository,
-            IMapper mapper
-
-            )
+        public EmployeesController(ExampleDbContext context)
         {
-            _unitOfWork = unitOfWork;
-            _employeeRepository = employeeRepository;
-            _repositoryEmployee = repository;
-            _mapper = mapper;
+            _context = context;
         }
 
-        // GET: api/ExampleCRUD
+        // GET: api/Employees
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Employee>>> Get()
+        public async Task<ActionResult<IEnumerable<EmployeeModel>>> GetEmployees()
         {
-            //IEnumerable<EmployeeDTO> collection = new List<EmployeeDTO>();
-            //var employees = _repositoryEmployee.Context.Employees.ToList();
-            //var test = _repositoryEmployee
-            //            .Context
-            //            .Employees
-            //            //.Select(_mapper.ProjectTo<EmployeeDTO>)
-            //            .Select(employee => _mapper.Map<EmployeeDTO>(employee))
-            //            .ToList();
+            var query = _context.Employees.Select(employee => new EmployeeModel
+            {
+                FirstName = employee.FirstName,
+                LastName = employee.LastName,
+                Address = employee.Address,
+                City = employee.City,
+                CreatedTime = employee.CreatedTime,
+                Email = employee.email,
+                Gender = employee.Gender,
+                PhoneNumber = employee.PhoneNumber,
+                Projects = employee.EmployeeProjects
+                                    .Where(employeeProject => employeeProject.EmployeeId == employee.Id)
+                                    .Select(employeeProjects => new ProjectModel()
+                                    {   
+                                        Name = employeeProjects.Project.Name,
+                                        Description = employeeProjects.Project.Description,
+                                        EndDate = employeeProjects.Project.EndDate,
+                                        StartDate = employeeProjects.Project.StartDate,
+                                    })
+            });
 
-            var query = _unitOfWork.Employees.Entity.AsQueryable();
-            var employees = query.ToListAsync();
-            return await employees;
-            //return [];
+
+            var employees = await query.ToListAsync();
+            return employees;
         }
 
-        // GET: api/ExampleCRUD/5
+        //// GET: api/Employees/5
         //[HttpGet("{id}")]
         //public async Task<ActionResult<Employee>> GetEmployee(Guid id)
         //{
@@ -63,7 +62,7 @@ namespace NetCoreAPI_Mongodb.Controllers.BaseController
         //    return employee;
         //}
 
-        //// PUT: api/ExampleCRUD/5
+        //// PUT: api/Employees/5
         //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         //[HttpPut("{id}")]
         //public async Task<IActionResult> PutEmployee(Guid id, Employee employee)
@@ -94,7 +93,7 @@ namespace NetCoreAPI_Mongodb.Controllers.BaseController
         //    return NoContent();
         //}
 
-        //// POST: api/ExampleCRUD
+        //// POST: api/Employees
         //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         //[HttpPost]
         //public async Task<ActionResult<Employee>> PostEmployee(Employee employee)
@@ -105,7 +104,7 @@ namespace NetCoreAPI_Mongodb.Controllers.BaseController
         //    return CreatedAtAction("GetEmployee", new { id = employee.Id }, employee);
         //}
 
-        //// DELETE: api/ExampleCRUD/5
+        //// DELETE: api/Employees/5
         //[HttpDelete("{id}")]
         //public async Task<IActionResult> DeleteEmployee(Guid id)
         //{

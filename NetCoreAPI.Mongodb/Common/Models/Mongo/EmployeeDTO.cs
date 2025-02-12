@@ -1,4 +1,4 @@
-﻿namespace Common.Common.Models
+﻿namespace Common.Models.Mongo
 {
     public class EmployeeDTO
     {

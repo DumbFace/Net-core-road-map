@@ -4,6 +4,7 @@ using Infrastucture.EFCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastucture.Migrations
 {
     [DbContext(typeof(ExampleDbContext))]
-    partial class ExampleDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250212051634_add-project-table")]
+    partial class addprojecttable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,7 +55,7 @@ namespace Infrastucture.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Country", (string)null);
+                    b.ToTable("Country");
                 });
 
             modelBuilder.Entity("Domain.EFCore.Entites.EmployeeProject", b =>
@@ -79,7 +82,7 @@ namespace Infrastucture.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("EmployeeProject", (string)null);
+                    b.ToTable("EmployeeProject");
                 });
 
             modelBuilder.Entity("Domain.EFCore.Entites.Project", b =>
@@ -113,7 +116,7 @@ namespace Infrastucture.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Project", (string)null);
+                    b.ToTable("Project");
                 });
 
             modelBuilder.Entity("Infrastucture.Domain.EFCore.Entites.Employee", b =>
@@ -157,7 +160,7 @@ namespace Infrastucture.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Employee", (string)null);
+                    b.ToTable("Employee");
                 });
 
             modelBuilder.Entity("Domain.EFCore.Entites.EmployeeProject", b =>
