@@ -20,3 +20,33 @@ namespace Domain.EFCore.Entites
         public int LinkTypeId { get; set; }
     }
 }
+awdawf wafaw f        public int LinkTypeId { get; set; }
+public int LinkTypeId { get; set; }
+public int LinkTypeId { get; set; }
+public int LinkTypeId { get; set; }
+public int LinkTypeId { get; set; }
+public int LinkTypeId { get; set; }
+public int LinkTypeId { get; set; }
+public int LinkTypeId { get; set; }
+public int LinkTypeId { get; set; }
+public int LinkTypeId { get; set; }
+public int LinkTypeId { get; set; }
+public int LinkTypeId { get; set; }
+public int LinkTypeId { get; set; }
+public int LinkTypeId { get; set; }
+public int LinkTypeId { get; set; }
+public int LinkTypeId { get; set; }
+public int LinkTypeId { get; set; }
+public int LinkTypeId { get; set; }
+public int LinkTypeId { get; set; }
+public int LinkTypeId { get; set; }
+public int LinkTypeId { get; set; }
+public int LinkTypeId { get; set; }
+public int LinkTypeId { get; set; }
+public int LinkTypeId { get; set; }
+public int LinkTypeId { get; set; }
+public int LinkTypeId { get; set; }
+public int LinkTypeId { get; set; }
+public int LinkTypeId { get; set; }
+public int LinkTypeId { get; set; }
+public int LinkTypeId { get; set; }
