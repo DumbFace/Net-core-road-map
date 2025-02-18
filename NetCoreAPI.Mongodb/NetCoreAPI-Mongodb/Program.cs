@@ -16,9 +16,13 @@ builder.Services.AddSwaggerGen(c =>
     c.CustomSchemaIds(type => type.ToString());
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API V1", Version = "v1" });
     c.SwaggerDoc("v2", new OpenApiInfo { Title = "My API V2", Version = "v2" });
+    c.SwaggerDoc("v3", new OpenApiInfo { Title = "My API V3", Version = "v3" });
 });
 builder.Services.AddDbContext<ExampleDbContext>(options =>
   options.UseSqlServer(builder.Configuration.GetConnectionString("ExampleDbContext")));
+
+builder.Services.AddDbContext<StackOverflowDBContext>(options =>
+  options.UseSqlServer(builder.Configuration.GetConnectionString("StackOverflowDBContext")));
 
 builder.Services.AddDbContext<SecondDbContext>(options =>
   options.UseSqlServer(builder.Configuration.GetConnectionString("SecondDbContext")),
@@ -34,6 +38,7 @@ builder.Services.AddAutoMapper(typeof(MapperProfile).Assembly);
 
 builder.Services.AddScoped<IUnitOfWork<ExampleDbContext>, UnitOfWork<ExampleDbContext>>();
 builder.Services.AddScoped<IUnitOfWork<SecondDbContext>, UnitOfWork<SecondDbContext>>();
+builder.Services.AddScoped<IUnitOfWork<StackOverflowDBContext>, UnitOfWork<StackOverflowDBContext>>();
 
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
@@ -54,6 +59,7 @@ if (app.Environment.IsDevelopment())
         c.DefaultModelsExpandDepth(-1);
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
         c.SwaggerEndpoint("/swagger/v2/swagger.json", "My API V2");
+        c.SwaggerEndpoint("/swagger/v3/swagger.json", "My API V3");
     });
 }
 

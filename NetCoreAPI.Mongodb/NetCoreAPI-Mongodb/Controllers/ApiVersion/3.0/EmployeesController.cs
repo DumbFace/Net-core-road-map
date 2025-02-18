@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NetCoreAPI_Mongodb.Controllers.BaseController;
 
-namespace NetCoreAPI_Mongodb.Controllers.ApiVersion._2._0
+namespace NetCoreAPI_Mongodb.Controllers.ApiVersion._3._0
 {
     public class EmployeesController : BaseController_v2
     {
