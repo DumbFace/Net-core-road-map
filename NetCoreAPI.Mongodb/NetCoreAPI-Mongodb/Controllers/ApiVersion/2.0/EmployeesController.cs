@@ -1,7 +1,5 @@
 ﻿using Common.Models.BaseModels;
 using Common.Models.Bases;
-using Domain.EFCore.Entites;
-using Infrastucture.Domain.EFCore.Entites;
 using Infrastucture.EFCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -35,7 +33,7 @@ namespace NetCoreAPI_Mongodb.Controllers.ApiVersion._2._0
                 Projects = employee.EmployeeProjects
                                     .Where(employeeProject => employeeProject.EmployeeId == employee.Id)
                                     .Select(employeeProjects => new ProjectModel()
-                                    {   
+                                    {
                                         Name = employeeProjects.Project.Name,
                                         Description = employeeProjects.Project.Description,
                                         EndDate = employeeProjects.Project.EndDate,

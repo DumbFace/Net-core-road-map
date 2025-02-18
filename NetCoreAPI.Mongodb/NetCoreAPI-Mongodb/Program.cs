@@ -20,6 +20,9 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddDbContext<ExampleDbContext>(options =>
   options.UseSqlServer(builder.Configuration.GetConnectionString("ExampleDbContext")));
 
+builder.Services.AddDbContext<StackOverflowDBContext>(options =>
+  options.UseSqlServer(builder.Configuration.GetConnectionString("StackOverflowDBContext")));
+
 builder.Services.AddDbContext<SecondDbContext>(options =>
   options.UseSqlServer(builder.Configuration.GetConnectionString("SecondDbContext")),
   ServiceLifetime.Scoped
