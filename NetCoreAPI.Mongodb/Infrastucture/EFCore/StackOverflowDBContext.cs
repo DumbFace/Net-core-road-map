@@ -1,7 +1,6 @@
 ﻿using Domain.EFCore.Entites;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
-using Microsoft.Extensions.Configuration;
 
 
 namespace Infrastucture.EFCore
@@ -11,7 +10,7 @@ namespace Infrastucture.EFCore
         public StackOverflowDBContext(DbContextOptions<StackOverflowDBContext> options) : base(options)
         {
         }
-        public DbSet<Badge> Badges { get; set; }
+        public virtual DbSet<Badge> Badges { get; set; }
 
         public DbSet<Comment> Comments { get; set; }
 
@@ -23,7 +22,7 @@ namespace Infrastucture.EFCore
 
         public DbSet<PostType> PostTypes { get; set; }
 
-        public DbSet<User> Users { get; set; }
+        public virtual DbSet<User> Users { get; set; }
 
         public DbSet<Vote> Votes { get; set; }
 
@@ -38,20 +37,13 @@ namespace Infrastucture.EFCore
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //base.OnModelCreating(modelBuilder);
-            //new EntityLinkTypeConfig().Configure(modelBuilder.Entity<LinkType>());
-            //modelBuilder.Entity<Badge>().ToTable("Badges", badge => badge.ExcludeFromMigrations(false));
-            //modelBuilder.Entity<Comment>().ToTable("Comments", Comment => Comment.ExcludeFromMigrations(true));
-            //modelBuilder.Entity<LinkType>().ToTable("LinkTypes", LinkType => LinkType.ExcludeFromMigrations(true));
-            //modelBuilder.Entity<PostLink>().ToTable("PostLinks", PostLink => PostLink.ExcludeFromMigrations(true));
-            //modelBuilder.Entity<Post>().ToTable("Posts", Post => Post.ExcludeFromMigrations(true));
-            //modelBuilder.Entity<PostType>().ToTable("PostTypes", PostType => PostType.ExcludeFromMigrations(true));
-            //modelBuilder.Entity<User>().ToTable("Users", User => User.ExcludeFromMigrations(true));
-            //modelBuilder.Entity<Vote>().ToTable("Votes", Vote => Vote.ExcludeFromMigrations(true));
-            //modelBuilder.Entity<VoteType>().ToTable("VoteTypes", VoteType => VoteType.ExcludeFromMigrations(true));
-            //modelBuilder.Conventions.Remove(typeof(ForeignKeyIndexConvention));
-            //modelBuilder.ApplyConfiguration<Post>()
-
+            modelBuilder.Entity<Badge>().Ignore(badge => badge.User);
+            //modelBuilder.Entity<User>().Ignore(user => user.Badges);
+            modelBuilder.Entity<Comment>().Ignore(comment => comment.User).Ignore(comment => comment.Post);
+            modelBuilder.Entity<Post>().Ignore(post => post.PostLink);
+            modelBuilder.Entity<Post>().Ignore(post => post.Comments);
+            modelBuilder.Entity<Post>().Ignore(post => post.Votes);
+            modelBuilder.Entity<Vote>().Ignore(vote => vote.VoteType);
         }
     }
 }

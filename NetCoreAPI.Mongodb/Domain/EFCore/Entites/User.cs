@@ -44,12 +44,12 @@ namespace Domain.EFCore.Entites
         public int? AccountId { get; set; }
 
         //TODO
-        public ICollection<Comment> Comments { get; set; }
+        //public ICollection<Comment> Comments { get; set; }
+        //[NotMapped]
+        public ICollection<Badge>? Badges { get; set; }
 
-        public Badge Badge { get; set; }
+        //public ICollection<Post> Posts { get; set; }
 
-        public ICollection<Post> Posts { get; set; }
-
-        public ICollection<Vote> Votes { get; set; }
+        //public ICollection<Vote> Votes { get; set; }
     }
 }

@@ -1,4 +1,7 @@
-﻿using Domain.EFCore.Entites;
+﻿using Common.Models.BaseModels;
+using Domain.EFCore.Entites;
+
+//using userModel = Common.Models.BaseModels;
 using Infrastucture.EFCore;
 using Infrastucture.UnitOfWork;
 using Microsoft.AspNetCore.Mvc;
@@ -34,30 +37,21 @@ namespace NetCoreAPI_Mongodb.Controllers.ApiVersion._3._0
 
         // GET api/<UserController>/5
         [HttpGet("{id}")]
-        public async Task<User> Get(int id)
+        public async Task<Common.Models.BaseModels.User> Get(int id)
+        //public async Task<Domain.EFCore.Entites.User> Get(int id)
         {
-            var user = await _context.Users.Where(user => user.Id == id)
-                .Include(user => user.Badge)    
-                .FirstOrDefaultAsync();
+            var sql = @"select [user].Id, [user].AboutMe ,  
+                        (select badge.Id, badge.UserId from [Badges] badge where badge.UserId = [user].Id for JSON PATH) as 'JsonBadges'
+                        from [Users] [user] 
+                        where [user].Id = 3";
+
+            var query = _context.Database.SqlQueryRaw<Common.Models.BaseModels.User>(sql);
+
+
+            var user = await query.FirstOrDefaultAsync();
+
             return user;
-        }
 
-        // POST api/<UserController>
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT api/<UserController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/<UserController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
         }
     }
 }

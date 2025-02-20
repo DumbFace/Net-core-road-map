@@ -42,7 +42,7 @@ namespace Infrastucture.Migrations.StackOverflowDB
 
                     b.HasKey("Id");
 
-                    b.ToTable("Badges");
+                    b.ToTable("Badges", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EFCore.Entites.Comment", b =>
@@ -73,7 +73,7 @@ namespace Infrastucture.Migrations.StackOverflowDB
 
                     b.HasKey("Id");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EFCore.Entites.LinkType", b =>
@@ -91,7 +91,7 @@ namespace Infrastucture.Migrations.StackOverflowDB
 
                     b.HasKey("Id");
 
-                    b.ToTable("LinkTypes");
+                    b.ToTable("LinkTypes", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EFCore.Entites.Post", b =>
@@ -160,15 +160,12 @@ namespace Infrastucture.Migrations.StackOverflowDB
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
                     b.Property<int>("ViewCount")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Posts");
+                    b.ToTable("Posts", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EFCore.Entites.PostLink", b =>
@@ -193,7 +190,7 @@ namespace Infrastucture.Migrations.StackOverflowDB
 
                     b.HasKey("Id");
 
-                    b.ToTable("PostLinks");
+                    b.ToTable("PostLinks", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EFCore.Entites.PostType", b =>
@@ -211,7 +208,7 @@ namespace Infrastucture.Migrations.StackOverflowDB
 
                     b.HasKey("Id");
 
-                    b.ToTable("PostTypes");
+                    b.ToTable("PostTypes", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EFCore.Entites.User", b =>
@@ -268,7 +265,7 @@ namespace Infrastucture.Migrations.StackOverflowDB
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EFCore.Entites.Vote", b =>
@@ -296,7 +293,7 @@ namespace Infrastucture.Migrations.StackOverflowDB
 
                     b.HasKey("Id");
 
-                    b.ToTable("Votes");
+                    b.ToTable("Votes", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EFCore.Entites.VoteType", b =>
@@ -314,92 +311,7 @@ namespace Infrastucture.Migrations.StackOverflowDB
 
                     b.HasKey("Id");
 
-                    b.ToTable("VoteTypes");
-                });
-
-            modelBuilder.Entity("Domain.EFCore.Entites.Badge", b =>
-                {
-                    b.HasOne("Domain.EFCore.Entites.User", "User")
-                        .WithOne("Badge")
-                        .HasForeignKey("Domain.EFCore.Entites.Badge", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Domain.EFCore.Entites.Comment", b =>
-                {
-                    b.HasOne("Domain.EFCore.Entites.Post", "Post")
-                        .WithMany("Comments")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.EFCore.Entites.User", "User")
-                        .WithMany("Comments")
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("Post");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Domain.EFCore.Entites.Post", b =>
-                {
-                    b.HasOne("Domain.EFCore.Entites.User", null)
-                        .WithMany("Posts")
-                        .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("Domain.EFCore.Entites.PostLink", b =>
-                {
-                    b.HasOne("Domain.EFCore.Entites.Post", null)
-                        .WithOne("PostLink")
-                        .HasForeignKey("Domain.EFCore.Entites.PostLink", "PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Domain.EFCore.Entites.Vote", b =>
-                {
-                    b.HasOne("Domain.EFCore.Entites.Post", null)
-                        .WithMany("Votes")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.EFCore.Entites.User", null)
-                        .WithMany("Votes")
-                        .HasForeignKey("UserId");
-
-                    b.HasOne("Domain.EFCore.Entites.VoteType", "VoteType")
-                        .WithMany()
-                        .HasForeignKey("VoteTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("VoteType");
-                });
-
-            modelBuilder.Entity("Domain.EFCore.Entites.Post", b =>
-                {
-                    b.Navigation("Comments");
-
-                    b.Navigation("PostLink");
-
-                    b.Navigation("Votes");
-                });
-
-            modelBuilder.Entity("Domain.EFCore.Entites.User", b =>
-                {
-                    b.Navigation("Badge");
-
-                    b.Navigation("Comments");
-
-                    b.Navigation("Posts");
-
-                    b.Navigation("Votes");
+                    b.ToTable("VoteTypes", (string)null);
                 });
 #pragma warning restore 612, 618
         }
