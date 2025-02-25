@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NetCoreAPI_Mongodb.Controllers.BaseController;
 
-namespace NetCoreAPI_Mongodb.Controllers.ApiVersion.v3
+namespace NetCoreAPI_Mongodb.Controllers.ApiVersion.v4
 {
-    public class CountryController : BaseController_v3
+    public class CountryController : BaseController_v4
     {
         private readonly SecondDbContext _context;
         public IUnitOfWork<SecondDbContext> _unitOfWorkSecondDb;

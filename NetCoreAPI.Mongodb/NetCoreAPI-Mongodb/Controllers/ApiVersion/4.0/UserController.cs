@@ -7,11 +7,11 @@ using NetCoreAPI_Mongodb.Controllers.BaseController;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace NetCoreAPI_Mongodb.Controllers.ApiVersion.v3
+namespace NetCoreAPI_Mongodb.Controllers.ApiVersion.v4
 {
     //[Route("api/[controller]")]
     //[ApiController]
-    public class UserController : BaseController_v3
+    public class UserController : BaseController_v4
     {
         //public IUnitOfWork<StackOverflowDBContext> _unitOfWork;
         private readonly StackOverflowDBContext _context;

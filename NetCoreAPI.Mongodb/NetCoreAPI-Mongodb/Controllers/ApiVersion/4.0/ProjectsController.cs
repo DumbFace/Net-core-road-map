@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NetCoreAPI_Mongodb.Controllers.BaseController;
 
-namespace NetCoreAPI_Mongodb.Controllers.ApiVersion.v3
+namespace NetCoreAPI_Mongodb.Controllers.ApiVersion.v4
 {
     //[Route("api/[controller]")]
     //[ApiController]
-    public class ProjectsController : BaseController_v3
+    public class ProjectsController : BaseController_v4
     {
         private readonly ExampleDbContext _context;
 

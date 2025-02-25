@@ -1,9 +1,4 @@
-﻿using AutoMapper.Configuration.Annotations;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.CodeAnalysis;
-using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace Common.Models.BaseModels
 {
@@ -13,8 +8,11 @@ namespace Common.Models.BaseModels
 
         public string AboutMe { get; set; }
 
-        [NotMapped]
+        //[NotMapped]
         public IEnumerable<Badge> Badges { get => JsonConvert.DeserializeObject<IEnumerable<Badge>>(JsonBadges); }
+
+        //public IEnumerable<Badge> Badges { get; set; }
+
 
         public string JsonBadges { get; set; }
     }

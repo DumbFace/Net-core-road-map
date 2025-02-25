@@ -4,6 +4,7 @@ using Infrastucture.EFCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastucture.Migrations.StackOverflowDB
 {
     [DbContext(typeof(StackOverflowDBContext))]
-    partial class StackOverflowDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250220200522_mapping-db-context-snapshot")]
+    partial class mappingdbcontextsnapshot
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -37,13 +37,13 @@ namespace Infrastucture.EFCore
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Badge>().Ignore(badge => badge.User);
+            //modelBuilder.Entity<Badge>().Ignore(badge => badge.User);
             //modelBuilder.Entity<User>().Ignore(user => user.Badges);
-            modelBuilder.Entity<Comment>().Ignore(comment => comment.User).Ignore(comment => comment.Post);
-            modelBuilder.Entity<Post>().Ignore(post => post.PostLink);
-            modelBuilder.Entity<Post>().Ignore(post => post.Comments);
-            modelBuilder.Entity<Post>().Ignore(post => post.Votes);
-            modelBuilder.Entity<Vote>().Ignore(vote => vote.VoteType);
+            //modelBuilder.Entity<Comment>().Ignore(comment => comment.User).Ignore(comment => comment.Post);
+            //modelBuilder.Entity<Post>().Ignore(post => post.PostLink);
+            //modelBuilder.Entity<Post>().Ignore(post => post.Comments);
+            //modelBuilder.Entity<Post>().Ignore(post => post.Votes);
+            //modelBuilder.Entity<Vote>().Ignore(vote => vote.VoteType);
         }
     }
 }
