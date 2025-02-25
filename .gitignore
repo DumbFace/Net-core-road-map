@@ -15,3 +15,5 @@
 /NetCoreAPI.Mongodb/Domain/obj
 /NetCoreAPI.Mongodb/Services/bin
 /NetCoreAPI.Mongodb/Services/obj
+/NetCoreAPI.Mongodb/NetCoreAPI-Test/bin/Debug/net8.0
+/NetCoreAPI.Mongodb/NetCoreAPI-Test/obj
