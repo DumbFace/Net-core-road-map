@@ -17,3 +17,8 @@
 /NetCoreAPI.Mongodb/Services/obj
 /NetCoreAPI.Mongodb/NetCoreAPI-Test/bin/Debug/net8.0
 /NetCoreAPI.Mongodb/NetCoreAPI-Test/obj
+/NetCoreAPI.Mongodb/Infrastucture/bin/Release/net8.0
+/NetCoreAPI.Mongodb/MediatR/bin/Debug/net8.0
+/NetCoreAPI.Mongodb/MediatR/bin/Release/net8.0
+/NetCoreAPI.Mongodb/MediatR/obj
+/NetCoreAPI.Mongodb/NetCoreAPI-Mongodb/bin/Release/net8.0
