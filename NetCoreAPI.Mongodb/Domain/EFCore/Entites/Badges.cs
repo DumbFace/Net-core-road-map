@@ -14,8 +14,7 @@ namespace Domain.EFCore.Entites
 
         [Required]
         public DateTime Date { get; set; }
-        //TODO
-        [NotMapped]
-        public User? User { get; set; }
+
+        public User User { get; set; }
     }
 }

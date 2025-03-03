@@ -1,7 +1,11 @@
+using Infrastucture.Repository.Base;
+using Infrastucture.Repository.EmployeeRepository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 using Moq;
 using NetCoreAPI_Mongodb.SignalRHub;
+using SharpCompress.Common;
 
 namespace NetCoreAPI_Test
 {
@@ -59,5 +63,12 @@ namespace NetCoreAPI_Test
             //mockClients.Verify(clients => clients.Group(groupName), Times.Once);
             //mockGroup.Verify(group => group.SendAsync("ReceiveNotify", message, default), Times.Once);
         }
+
+        public void Test_EmployeeRepository()
+        {
+            var mocking = new Mock<IEmployeeRepository>();
+            //mocking.Setup(s => s.)
+        }
     }
+
 }

@@ -10,9 +10,12 @@ using Microsoft.OpenApi.Models;
 using NetCoreAPI_Mongodb.Data;
 using NetCoreAPI_Mongodb.SignalRHub;
 using NetCoreAPI_Mongodb.TempService;
+using Serilog;
 using static NetCoreAPI_Mongodb.Data.MongoDBService;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.InjectService(builder.Configuration);
 
 builder.Services.AddSwaggerGen(c =>
 {
@@ -22,11 +25,32 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v3", new OpenApiInfo { Title = "My API V3", Version = "v3" });
     c.SwaggerDoc("v4", new OpenApiInfo { Title = "My API V4", Version = "v4" });
 });
+
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
 builder.Services.AddDbContext<ExampleDbContext>(options =>
   options.UseSqlServer(builder.Configuration.GetConnectionString("ExampleDbContext")));
 
+Log.Logger = new LoggerConfiguration()
+            //.WriteTo.Console()
+            //.WriteTo.File("log/log-.txt", rollingInterval: RollingInterval.Day)
+            .WriteTo.File("/log/log-.txt", rollingInterval: RollingInterval.Day)
+
+            .CreateLogger();
+builder.Services.AddLogging(loggingBuilder =>
+{
+    loggingBuilder.ClearProviders();
+    loggingBuilder.AddConsole();
+});
+System.Diagnostics.Debug.WriteLine("Run only one!!");
+
+
 builder.Services.AddDbContext<StackOverflowDBContext>(options =>
-  options.UseSqlServer(builder.Configuration.GetConnectionString("StackOverflowDBContext")));
+    options
+          .UseSqlServer(builder.Configuration.GetConnectionString("StackOverflowDBContext"))
+          .LogTo(Console.WriteLine, LogLevel.Information)
+  );
+
 
 builder.Services.AddDbContext<SecondDbContext>(options =>
   options.UseSqlServer(builder.Configuration.GetConnectionString("SecondDbContext")),
@@ -44,18 +68,6 @@ builder.Services.AddAutoMapper(typeof(MapperProfile).Assembly);
 
 
 builder.Services.AddSignalR();
-
-//builder.Services.AddCors(options =>
-//{
-//    options.AddDefaultPolicy(
-//        builder =>
-//        {
-//            builder.WithOrigins("http://localhost:3000/")
-//                .AllowAnyHeader()
-//                .WithMethods("GET", "POST")
-//                .AllowCredentials();
-//        });
-//});
 builder.Services.AddScoped<IUnitOfWork<ExampleDbContext>, UnitOfWork<ExampleDbContext>>();
 builder.Services.AddScoped<IUnitOfWork<SecondDbContext>, UnitOfWork<SecondDbContext>>();
 builder.Services.AddScoped<IUnitOfWork<StackOverflowDBContext>, UnitOfWork<StackOverflowDBContext>>();
@@ -86,12 +98,12 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+app.UseExceptionHandler();
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-//app.UseCors();
 app.MapHub<ChatHub>("/chathub");
-//app.MapHub<ChatHub>("/chathub/{group}");
 
 app.UseRouting();
 

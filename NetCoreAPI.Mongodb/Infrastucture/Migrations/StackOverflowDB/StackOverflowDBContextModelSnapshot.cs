@@ -42,7 +42,7 @@ namespace Infrastucture.Migrations.StackOverflowDB
 
                     b.HasKey("Id");
 
-                    b.ToTable("Badges");
+                    b.ToTable("Badges", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EFCore.Entites.Comment", b =>
@@ -73,7 +73,7 @@ namespace Infrastucture.Migrations.StackOverflowDB
 
                     b.HasKey("Id");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EFCore.Entites.LinkType", b =>
@@ -91,7 +91,7 @@ namespace Infrastucture.Migrations.StackOverflowDB
 
                     b.HasKey("Id");
 
-                    b.ToTable("LinkTypes");
+                    b.ToTable("LinkTypes", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EFCore.Entites.Post", b =>
@@ -165,7 +165,7 @@ namespace Infrastucture.Migrations.StackOverflowDB
 
                     b.HasKey("Id");
 
-                    b.ToTable("Posts");
+                    b.ToTable("Posts", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EFCore.Entites.PostLink", b =>
@@ -190,7 +190,7 @@ namespace Infrastucture.Migrations.StackOverflowDB
 
                     b.HasKey("Id");
 
-                    b.ToTable("PostLinks");
+                    b.ToTable("PostLinks", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EFCore.Entites.PostType", b =>
@@ -208,7 +208,7 @@ namespace Infrastucture.Migrations.StackOverflowDB
 
                     b.HasKey("Id");
 
-                    b.ToTable("PostTypes");
+                    b.ToTable("PostTypes", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EFCore.Entites.User", b =>
@@ -265,7 +265,7 @@ namespace Infrastucture.Migrations.StackOverflowDB
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EFCore.Entites.Vote", b =>
@@ -293,7 +293,7 @@ namespace Infrastucture.Migrations.StackOverflowDB
 
                     b.HasKey("Id");
 
-                    b.ToTable("Votes");
+                    b.ToTable("Votes", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EFCore.Entites.VoteType", b =>
@@ -311,7 +311,7 @@ namespace Infrastucture.Migrations.StackOverflowDB
 
                     b.HasKey("Id");
 
-                    b.ToTable("VoteTypes");
+                    b.ToTable("VoteTypes", (string)null);
                 });
 
             modelBuilder.Entity("Domain.EFCore.Entites.Badge", b =>

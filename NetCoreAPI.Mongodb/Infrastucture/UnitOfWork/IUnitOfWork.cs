@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 namespace Infrastucture.UnitOfWork
 {
     public interface IUnitOfWork<TContext> where TContext : DbContext
-        //public interface IUnitOfWork<out TContext> where TContext : DbContext
     {
         public IEmployeeRepository Employees { get; }
 

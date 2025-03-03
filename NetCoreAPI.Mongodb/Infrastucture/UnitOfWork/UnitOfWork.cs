@@ -26,7 +26,6 @@ namespace Infrastucture.UnitOfWork
             )
         {
             _context = context;
-            System.Diagnostics.Debug.WriteLine($"Context ID UnitOfWork: {Context.ContextId}");
         }
         //The Dispose() method is used to free unmanaged resources like files, 
         //database connections etc. at any time.

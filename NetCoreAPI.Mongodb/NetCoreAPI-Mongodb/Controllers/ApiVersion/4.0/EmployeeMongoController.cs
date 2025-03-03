@@ -19,7 +19,12 @@ namespace NetCoreAPI_Mongodb.Controllers.Api.v4
         readonly IMapper mapper;
         readonly ExampleDbContext _dbContext;
 
-        public EmployeeMongoController(MongoDBService mongoDBService, IOptions<MongoDBDatabaseSettings> options, IMapper _mapper, ExampleDbContext dbContext)
+        public EmployeeMongoController
+            (
+            MongoDBService mongoDBService,
+            IOptions<MongoDBDatabaseSettings> options,
+            IMapper _mapper,
+            ExampleDbContext dbContext)
         {
             employees = mongoDBService.Database?.GetCollection<Employee>(options.Value.EmployeesCollectionName);
             employeesWithId = mongoDBService.Database?.GetCollection<EmployeeWithId>("EmployeesWithId");

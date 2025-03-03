@@ -11,9 +11,6 @@ namespace Common.Models.BaseModels
         //[NotMapped]
         public IEnumerable<Badge> Badges { get => JsonConvert.DeserializeObject<IEnumerable<Badge>>(JsonBadges); }
 
-        //public IEnumerable<Badge> Badges { get; set; }
-
-
         public string JsonBadges { get; set; }
     }
 }
