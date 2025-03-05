@@ -1,13 +1,16 @@
 using Common.Common.MapperProfile;
+using GrpcGreeter;
 using Infrastucture.Domain.EFCore.Entites;
 using Infrastucture.EFCore;
 using Infrastucture.Repository.Base;
 using Infrastucture.Repository.EmployeeRepository;
 using Infrastucture.UnitOfWork;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.OpenApi.Models;
 using NetCoreAPI_Mongodb.Data;
+using NetCoreAPI_Mongodb.rRPCBase.rRPC;
 using NetCoreAPI_Mongodb.SignalRHub;
 using NetCoreAPI_Mongodb.TempService;
 using Serilog;
@@ -52,6 +55,7 @@ builder.Services.AddDbContext<StackOverflowDBContext>(options =>
   );
 
 
+builder.Services.AddGrpc();
 builder.Services.AddDbContext<SecondDbContext>(options =>
   options.UseSqlServer(builder.Configuration.GetConnectionString("SecondDbContext")),
   ServiceLifetime.Scoped
@@ -66,6 +70,13 @@ builder.Services.AddTransient<IChatHubService, ChatHubService>();
 builder.Services.AddSingleton<MongoDBService>();
 builder.Services.AddAutoMapper(typeof(MapperProfile).Assembly);
 
+builder.Services.AddCors(o => o.AddPolicy("AllowAll", builder =>
+{
+    builder.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .WithExposedHeaders("Grpc-Status", "Grpc-Message", "Grpc-Encoding", "Grpc-Accept-Encoding");
+}));
 
 builder.Services.AddSignalR();
 builder.Services.AddScoped<IUnitOfWork<ExampleDbContext>, UnitOfWork<ExampleDbContext>>();
@@ -83,7 +94,15 @@ builder.Services.Configure<MongoDBDatabaseSettings>(
     builder.Configuration.GetSection("MongoDB"));
 
 var app = builder.Build();
-
+//app.UseEndpoints(endpoints =>
+//{
+//    endpoints.MapGet("/", async context =>
+//    {
+//        await context.Response.WriteAsync("gRPC server is running...");
+//    });
+//    endpoints.MapGrpcService<GreeterService>().EnableGrpcWeb()
+//             .RequireCors("AllowAll");
+//});
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -99,14 +118,20 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseExceptionHandler();
-
+app.UseCors("AllowAll");
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 app.MapHub<ChatHub>("/chathub");
-
+app.Use(async (context, next) =>
+{
+    context.Response.Headers.Append("Content-Type", "application/grpc-web-text");
+    await next();
+});
 app.UseRouting();
-
+app.UseGrpcWeb(new GrpcWebOptions { DefaultEnabled = true });
+app.MapGrpcService<GreeterService>().EnableGrpcWeb()
+                                    .RequireCors("AllowAll");
 app.MapControllers();
 
 app.Run();

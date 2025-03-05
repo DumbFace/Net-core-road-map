@@ -1,4 +1,6 @@
-﻿using Humanizer;
+﻿using Grpc.Net.Client;
+using GrpcGreeter;
+using Humanizer;
 using Infrastucture.EFCore;
 using MediatR;
 using MediatR.AspnetCoreAPI.UsersHandler.Queries;
@@ -34,9 +36,8 @@ namespace NetCoreAPI_Mongodb.Controllers.ApiVersion.v4
         //public async Task<string> GetUsersWithout()
         public IActionResult GetUsersWithout()
         {
-            //var response = _context.Users.Take(500000).ToListAsync();
+
             var responseGetUserRequest = _mediator.Send(new GetUsersRequest());
-            //var responseGetBadgeRequest = _mediator.Send(new GetBadgeRequest());
 
             return Ok(responseGetUserRequest);
         }
