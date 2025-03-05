@@ -1,11 +1,8 @@
-using Infrastucture.Repository.Base;
 using Infrastucture.Repository.EmployeeRepository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.EntityFrameworkCore;
 using Moq;
 using NetCoreAPI_Mongodb.SignalRHub;
-using SharpCompress.Common;
 
 namespace NetCoreAPI_Test
 {

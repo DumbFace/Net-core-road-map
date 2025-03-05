@@ -1,7 +1,7 @@
 ﻿using Grpc.Core;
 using GrpcGreeter;
 
-namespace NetCoreAPI_Mongodb.rRPCBase.rRPC
+namespace NetCoreAPI_Mongodb.rRPCBase
 {
     public class GreeterService : Greeter.GreeterBase
     {

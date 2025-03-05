@@ -1,4 +1,6 @@
-﻿namespace Common.Models.BaseModels
+﻿using Infrastucture.Domain.Enum;
+
+namespace Common.Models.BaseModels
 {
     public class ProjectModel
     {
@@ -9,5 +11,7 @@
         public DateTime StartDate { get; set; }
 
         public DateTime? EndDate { get; set; }
+
+        public ProjectStatus Status { get; set; }
     }
 }

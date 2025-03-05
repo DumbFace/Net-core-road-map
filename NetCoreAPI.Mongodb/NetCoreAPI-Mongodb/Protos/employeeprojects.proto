@@ -1,0 +1,22 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "GrpcEmployee";
+
+package grpc_employee;
+
+service EmployeeProjects {
+	rpc GetEmployeeProjects (Empty) return (GetEmployeeProjectsResponse);
+}
+
+
+message GetEmployeeProjectsResponse {
+	string EmployeeId = 1;
+
+	string ProjectId = 2;
+}
+
+message EmployeeProjects {
+	string EmployeeId = 1;
+
+	string ProjectId = 2;
+}

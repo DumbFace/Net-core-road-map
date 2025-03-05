@@ -1,10 +1,8 @@
 ﻿using Common.Models.BaseModels;
 using HandlerRequest.AspnetCoreAPI.BadgesHandler.BadgeHandlerModel;
-using HandlerRequest.AspnetCoreAPI.UsersHandler.UsersHandlerModel;
 using Infrastucture.EFCore;
 using X.PagedList;
 using X.PagedList.EF;
-using BadgeRequest = HandlerRequest.AspnetCoreAPI.UsersHandler.UsersHandlerModel.Badge;
 
 namespace MediatR.AspnetCoreAPI.UsersHandler.Queries
 {
@@ -32,7 +30,7 @@ namespace MediatR.AspnetCoreAPI.UsersHandler.Queries
             {
                 Name = badge.Name,
             })
-            .ToPagedListAsync(1,10);
+            .ToPagedListAsync(1, 10);
 
             return response;
         }

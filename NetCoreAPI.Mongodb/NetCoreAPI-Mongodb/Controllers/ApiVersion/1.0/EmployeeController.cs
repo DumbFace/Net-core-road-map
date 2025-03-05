@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Common.Models.Bases;
+using Common.Models.BaseModels;
 using Infrastucture.Domain.Mongo.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;

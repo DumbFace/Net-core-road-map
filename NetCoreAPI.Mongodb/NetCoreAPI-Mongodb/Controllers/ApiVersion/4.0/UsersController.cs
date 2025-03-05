@@ -1,12 +1,8 @@
-﻿using Grpc.Net.Client;
-using GrpcGreeter;
-using Humanizer;
-using Infrastucture.EFCore;
+﻿using Infrastucture.EFCore;
 using MediatR;
 using MediatR.AspnetCoreAPI.UsersHandler.Queries;
 using Microsoft.AspNetCore.Mvc;
 using NetCoreAPI_Mongodb.Controllers.BaseController;
-using System.Collections;
 
 namespace NetCoreAPI_Mongodb.Controllers.ApiVersion.v4
 {

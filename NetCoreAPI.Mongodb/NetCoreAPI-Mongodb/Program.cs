@@ -1,16 +1,14 @@
 using Common.Common.MapperProfile;
-using GrpcGreeter;
 using Infrastucture.Domain.EFCore.Entites;
 using Infrastucture.EFCore;
 using Infrastucture.Repository.Base;
 using Infrastucture.Repository.EmployeeRepository;
 using Infrastucture.UnitOfWork;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.OpenApi.Models;
 using NetCoreAPI_Mongodb.Data;
-using NetCoreAPI_Mongodb.rRPCBase.rRPC;
+using NetCoreAPI_Mongodb.rRPCBase;
 using NetCoreAPI_Mongodb.SignalRHub;
 using NetCoreAPI_Mongodb.TempService;
 using Serilog;
@@ -35,8 +33,6 @@ builder.Services.AddDbContext<ExampleDbContext>(options =>
   options.UseSqlServer(builder.Configuration.GetConnectionString("ExampleDbContext")));
 
 Log.Logger = new LoggerConfiguration()
-            //.WriteTo.Console()
-            //.WriteTo.File("log/log-.txt", rollingInterval: RollingInterval.Day)
             .WriteTo.File("/log/log-.txt", rollingInterval: RollingInterval.Day)
 
             .CreateLogger();
@@ -132,6 +128,8 @@ app.UseRouting();
 app.UseGrpcWeb(new GrpcWebOptions { DefaultEnabled = true });
 app.MapGrpcService<GreeterService>().EnableGrpcWeb()
                                     .RequireCors("AllowAll");
+
+app.MapGrpcService<EmployeeService>().EnableGrpcWeb();
 app.MapControllers();
 
 app.Run();

@@ -1,12 +1,11 @@
 ﻿using Common.Models.BaseModels;
+using HandlerRequest.AspnetCoreAPI.BadgesHandler.BadgeHandlerModel;
 using HandlerRequest.AspnetCoreAPI.UsersHandler.UsersHandlerModel;
 using Infrastucture.EFCore;
+using Microsoft.EntityFrameworkCore;
 using X.PagedList;
 using X.PagedList.EF;
 using BadgeRequest = HandlerRequest.AspnetCoreAPI.UsersHandler.UsersHandlerModel.Badge;
-using HandlerRequest.AspnetCoreAPI.BadgesHandler.BadgeHandlerModel;
-using Azure;
-using Microsoft.EntityFrameworkCore;
 namespace MediatR.AspnetCoreAPI.UsersHandler.Queries
 {
 

@@ -37,7 +37,7 @@ namespace Infrastucture.Domain.EFCore.Entites
         [MaxLength(100)]
         [AllowNull]
         [EmailAddress]
-        public string email { get; set; }
+        public string Email { get; set; }
 
         public ICollection<EmployeeProject> EmployeeProjects { get; set; }
 

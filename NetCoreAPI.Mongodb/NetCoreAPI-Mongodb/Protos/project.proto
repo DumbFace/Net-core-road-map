@@ -1,0 +1,36 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "GrpcProject";
+
+package project;
+import "google/protobuf/timestamp.proto";
+
+service GrpcServiceProject {
+	rpc GetProjects (Empty) returns (GetProjectsResponse);
+}
+
+enum ProjectStatus {
+	DEFAULT = 0;
+	InProgress = 1;
+	Complete = 2;
+	Postpone = 3;
+}
+
+message Empty {}
+
+
+message GetProjectsResponse {
+	repeated ProjectModel projects = 1;
+}
+
+message ProjectModel {
+	string Name = 1;
+
+	string Description = 2;
+
+	google.protobuf.Timestamp StartDate = 3;
+
+	google.protobuf.Timestamp EndDate = 4;
+
+	ProjectStatus Status = 5;
+}

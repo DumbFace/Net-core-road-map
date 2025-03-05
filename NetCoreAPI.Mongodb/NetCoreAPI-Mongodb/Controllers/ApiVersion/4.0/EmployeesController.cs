@@ -1,5 +1,4 @@
 ﻿using Common.Models.BaseModels;
-using Common.Models.Bases;
 using Infrastucture.EFCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -27,7 +26,7 @@ namespace NetCoreAPI_Mongodb.Controllers.ApiVersion.v4
                 Address = employee.Address,
                 City = employee.City,
                 CreatedTime = employee.CreatedTime,
-                Email = employee.email,
+                Email = employee.Email,
                 Gender = employee.Gender,
                 PhoneNumber = employee.PhoneNumber,
                 Projects = employee.EmployeeProjects

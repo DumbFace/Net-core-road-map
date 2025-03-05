@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Common.Models.Bases;
+using Common.Models.BaseModels;
 using Common.Models.Mongo;
 using Infrastucture.Domain.Mongo.Entities;
 using EFCoreEntity = Infrastucture.Domain.EFCore.Entites;

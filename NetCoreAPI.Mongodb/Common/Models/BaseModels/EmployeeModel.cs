@@ -1,7 +1,6 @@
-﻿using Common.Models.BaseModels;
-using Infrastucture.Domain.Enum;
+﻿using Infrastucture.Domain.Enum;
 
-namespace Common.Models.Bases
+namespace Common.Models.BaseModels
 {
     public class EmployeeModel
     {
