@@ -20,17 +20,17 @@ message Empty {}
 
 
 message GetProjectsResponse {
-	repeated ProjectModel projects = 1;
+	repeated ProjectModel Projects = 1;
 }
 
 message ProjectModel {
-	string Name = 1;
+	optional string Name = 1;
 
-	string Description = 2;
+	optional string Description = 2;
 
 	google.protobuf.Timestamp StartDate = 3;
 
-	google.protobuf.Timestamp EndDate = 4;
+	optional google.protobuf.Timestamp EndDate = 4;
 
 	ProjectStatus Status = 5;
 }

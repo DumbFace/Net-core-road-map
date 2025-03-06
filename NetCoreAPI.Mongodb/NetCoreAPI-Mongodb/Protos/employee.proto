@@ -4,6 +4,7 @@ option csharp_namespace = "GrpcEmployee";
 
 package employee;
 import "project.proto";
+import "google/protobuf/wrappers.proto"; 
 
 service GrpcServiceEmployee {
   rpc GetEmployees (Empty) returns (GetEmployeesResponse);
@@ -18,17 +19,18 @@ enum Gender {
 message Empty {}
 
 message GetEmployeesResponse {
-  repeated EmployeeModel employees = 1;
+  repeated EmployeeModel Employees = 1;
 }
 
 message EmployeeModel {
-  string first_name = 1;
-  string last_name = 2;
-  string email = 3;
-  string phone_number = 4;
-  string address = 5;
-  string city = 6;
-  Gender gender = 7;
+  google.protobuf.StringValue Id = 1;
+  google.protobuf.StringValue FirstName = 2;
+  google.protobuf.StringValue LastName = 3;
+  google.protobuf.StringValue Email = 4;
+  google.protobuf.StringValue PhoneNumber = 5;
+  google.protobuf.StringValue Address = 6;
+  google.protobuf.StringValue City = 7;
+  Gender Gender = 8;
 
-  repeated project.ProjectModel projects = 8;
+  repeated project.ProjectModel Projects = 9;
 }

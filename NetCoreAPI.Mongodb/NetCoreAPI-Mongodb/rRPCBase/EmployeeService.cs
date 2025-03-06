@@ -2,6 +2,7 @@
 using GrpcEmployee;
 using Infrastucture.EFCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 namespace NetCoreAPI_Mongodb.rRPCBase
 {
     using Common = Common.Models.BaseModels;
@@ -9,10 +10,17 @@ namespace NetCoreAPI_Mongodb.rRPCBase
     using GoogleFromDateTime = Google.Protobuf.WellKnownTypes.Timestamp;
     public class EmployeeService : GrpcServiceEmployee.GrpcServiceEmployeeBase
     {
+        private readonly ILogger<EmployeeService> _logger;
         private readonly ExampleDbContext _context;
-        public EmployeeService(ExampleDbContext context)
+        public EmployeeService(ExampleDbContext context, ILogger<EmployeeService> logger)
         {
             _context = context;
+            _logger = logger;
+        }
+
+        public class EmployeeServiceResponseModel : Common.EmployeeModel
+        {
+            public Guid Id { get; set; }
         }
 
         public override async Task<GetEmployeesResponse> GetEmployees(GrpcEmployee.Empty request, ServerCallContext context)
@@ -38,11 +46,15 @@ namespace NetCoreAPI_Mongodb.rRPCBase
             //    .Take(10)
             //    .ToListAsync();
 
-            var employees = await (from employee in _context.Employees.Take(10)
+            GetEmployeesResponse getEmployeesResponse = new();
+
+            var employees = await (from employee in _context.Employees.Take(10) 
                                    join employeeProject in _context.EmployeeProjects on employee.Id equals employeeProject.EmployeeId
-                                   join _project in _context.Projects on employeeProject.ProjectId equals _project.Id into bigGroup
-                                   select new Common.EmployeeModel
+                                   join project in _context.Projects on employeeProject.ProjectId equals project.Id into bigGroup
+                                   where employee.Id == new Guid("D159082A-728D-4937-A56F-052693C19B11")
+                                   select new EmployeeServiceResponseModel
                                    {
+                                       Id = employee.Id,
                                        Address = employee.Address,
                                        City = employee.City,
                                        CreatedTime = employee.CreatedTime,
@@ -51,24 +63,21 @@ namespace NetCoreAPI_Mongodb.rRPCBase
                                        Gender = employee.Gender,
                                        LastName = employee.LastName,
                                        PhoneNumber = employee.PhoneNumber,
-                                       Projects = bigGroup.Select(element => new Common.ProjectModel
-                                       {
-                                           Description = element.Description,
-                                           StartDate = element.StartDate,
-                                           EndDate = element.EndDate,
-                                           Name = element.Name,
-                                           Status = element.Status,
-                                       })
-                                   }).ToListAsync();
+                                       Projects = bigGroup
 
-            GetEmployeesResponse getEmployeesResponse = new GetEmployeesResponse();
+                                   }).ToListAsync();
 
             if (employees.Any())
             {
                 foreach (var employee in employees)
                 {
+                    //if (employee.City.Contains("Jenkinsport"))
+                    //{
+                    //    _logger.LogInformation($"---DATETIME {employee.Projects.Select(project => project.StartDate).FirstOrDefault().ToString()}");
+                    //}
                     GrpcEmployee.EmployeeModel employeeModel = new()
                     {
+                        Id = employee.Id.ToString(),
                         Address = employee.Address,
                         City = employee.City,
                         Email = employee.Email,
@@ -76,30 +85,18 @@ namespace NetCoreAPI_Mongodb.rRPCBase
                         Gender = (Gender)(int)employee.Gender,
                         LastName = employee.LastName,
                         PhoneNumber = employee.PhoneNumber,
-                        //Projects= employee.Projects.Select(project => new GrpcProject.ProjectModel
-                        //{
-                        //    Description= project.Description,
-                        //    EndDate =project.EndDate,
-                        //    StartDate = project.StartDate,
-                        //    Name = project.Name,
-                        //    Status = project.Status,
-                        //})
+                     
                     };
 
                     if (employee.Projects.Any())
                     {
                         foreach (var project in employee.Projects)
                         {
-                            //Timestamp endDate;
-                            //if (project.EndDate.HasValue)
-                            //{
-                            //    endDate = GoogleFromDateTime.FromDateTime(project.EndDate.Value);
-                            //}
                             GrpcProject.ProjectModel projectModel = new()
                             {
                                 Description = project.Description,
-                                EndDate = GoogleFromDateTime.FromDateTime(project.EndDate.Value),
-                                StartDate = GoogleFromDateTime.FromDateTime(project.StartDate),
+                                StartDate = GoogleFromDateTime.FromDateTime(project.StartDateCurrentTimeZone.ToUniversalTime()),
+                                EndDate = project.EndDate.HasValue ? GoogleFromDateTime.FromDateTime(project.EndDateCurrentTimeZone.Value.ToUniversalTime()) : null,
                                 Name = project.Name,
                                 Status = (GrpcProject.ProjectStatus)(int)project.Status,
                             };

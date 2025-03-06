@@ -30,7 +30,11 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 builder.Services.AddDbContext<ExampleDbContext>(options =>
-  options.UseSqlServer(builder.Configuration.GetConnectionString("ExampleDbContext")));
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ExampleDbContext"));
+    options.LogTo(Console.WriteLine, LogLevel.Information);
+});
+  
 
 Log.Logger = new LoggerConfiguration()
             .WriteTo.File("/log/log-.txt", rollingInterval: RollingInterval.Day)
