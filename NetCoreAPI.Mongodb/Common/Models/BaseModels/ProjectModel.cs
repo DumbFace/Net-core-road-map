@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Common.Models.BaseModels
 {
-    public class ProjectModel 
+    public class ProjectModel
     {
         public string Name { get; set; }
 
@@ -23,6 +23,6 @@ namespace Common.Models.BaseModels
         //Start date timezone vietnamese GMT+7
         public DateTime StartDateCurrentTimeZone { get => TimeZoneInfo.ConvertTimeFromUtc(StartDate, TimeZoneInfo.Local); }
 
-        public DateTime? EndDateCurrentTimeZone { get => EndDate.HasValue ? TimeZoneInfo.ConvertTimeFromUtc(EndDate.Value, TimeZoneInfo.Local) : null;  }
+        public DateTime? EndDateCurrentTimeZone { get => EndDate.HasValue ? TimeZoneInfo.ConvertTimeFromUtc(EndDate.Value, TimeZoneInfo.Local) : null; }
     }
 }

@@ -34,7 +34,7 @@ namespace NetCoreAPI_Mongodb.Controllers.ApiVersion.v3
 
         // GET api/<UserController>/5
         [HttpGet("{id}")]
-        public async Task<Common.Models.BaseModels.User> Get(int id)
+        public async Task<Common.Models.BaseModels.UserModel> Get(int id)
         //public async Task<Domain.EFCore.Entites.User> Get(int id)
         {
 
@@ -50,7 +50,7 @@ namespace NetCoreAPI_Mongodb.Controllers.ApiVersion.v3
             //var user = await query.FirstOrDefaultAsync();
 
             var query = _context.Users.Where(user => user.Id == id)
-                                  .Select(user => new Common.Models.BaseModels.User
+                                  .Select(user => new Common.Models.BaseModels.UserModel
                                   {
                                       Id = user.Id,
                                       AboutMe = user.AboutMe,

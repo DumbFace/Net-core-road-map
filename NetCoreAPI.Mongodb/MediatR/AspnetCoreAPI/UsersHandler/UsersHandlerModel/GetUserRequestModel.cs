@@ -16,24 +16,11 @@ public class GetUserRequestModel
 
     public int Views { get; set; }
 
-    public IEnumerable<Badge> Badges { get; set; }
+    public IEnumerable<Badge> Badges { get; set; } = new List<Badge>();
 
-    //[NotMapped]
-    //public IEnumerable<Badge> Badges
-    //{
-    //    get
-    //    {
-    //        return Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Badge>>(BadgesJSONAsString ?? "[]");
-    //    }
-    //}
-
-    //[JsonIgnore]
-    //public string BadgesJSONAsString { get; set; }
-
-}
-
-public class Badge
-{
-    public string Name { get; set; }
+    public class Badge
+    {
+        public string Name { get; set; }
+    }
 }
 

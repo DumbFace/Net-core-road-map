@@ -1,11 +1,14 @@
-﻿using Infrastucture.EFCore;
+﻿using Common.Enum;
+using Infrastucture.EFCore;
 using MediatR;
 using MediatR.AspnetCoreAPI.UsersHandler.Queries;
 using Microsoft.AspNetCore.Mvc;
+using NetCoreAPI_Mongodb.AuthorizeFilter;
 using NetCoreAPI_Mongodb.Controllers.BaseController;
 
 namespace NetCoreAPI_Mongodb.Controllers.ApiVersion.v4
 {
+    //[Authorize]
     public class UsersController : BaseController_v4
     {
         private readonly ILogger<UsersController> _logger;
@@ -20,22 +23,12 @@ namespace NetCoreAPI_Mongodb.Controllers.ApiVersion.v4
 
         // GET: api/Users
         [HttpGet]
+        [CustomAuthorize([UserPermissionsEnum.READ])]
         //public async Task<ApiResponseModel<IEnumerable<GetUserRequestModel>>> GetUsers()
         public async Task<IActionResult> GetUsers()
         {
             var response = await _mediator.Send(new GetUsersRequest());
             return Ok(response);
-        }
-
-        [HttpGet]
-        [Route("get-user-badge-simultaneously")]
-        //public async Task<string> GetUsersWithout()
-        public IActionResult GetUsersWithout()
-        {
-
-            var responseGetUserRequest = _mediator.Send(new GetUsersRequest());
-
-            return Ok(responseGetUserRequest);
         }
 
         //// GET: api/Users/5

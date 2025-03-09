@@ -17,7 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{ED7E39
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{0B290660-FEE3-4868-831E-0230EA31D034}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{A3E8A00C-0C4C-43D0-B32B-2DB22ABB0262}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspnetCoreApi.Services", "Services\AspnetCoreApi.Services.csproj", "{A3E8A00C-0C4C-43D0-B32B-2DB22ABB0262}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "xUnitTest", "xUnitTest", "{84430EEB-A5D3-4F4D-B335-B0FD6725CF67}"
 EndProject

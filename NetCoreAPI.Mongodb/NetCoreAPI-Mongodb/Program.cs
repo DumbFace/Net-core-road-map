@@ -1,61 +1,122 @@
-using Common.Common.MapperProfile;
+﻿using Common.Common.MapperProfile;
+using Infrastucture.AspnetCoreApi.Services.Interface;
+using Infrastucture.AspnetCoreApi.Services.Services;
 using Infrastucture.Domain.EFCore.Entites;
 using Infrastucture.EFCore;
 using Infrastucture.Repository.Base;
 using Infrastucture.Repository.EmployeeRepository;
 using Infrastucture.UnitOfWork;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using NetCoreAPI_Mongodb.Data;
 using NetCoreAPI_Mongodb.rRPCBase;
 using NetCoreAPI_Mongodb.SignalRHub;
 using NetCoreAPI_Mongodb.TempService;
 using Serilog;
+using System.Text;
 using static NetCoreAPI_Mongodb.Data.MongoDBService;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.InjectService(builder.Configuration);
 
-builder.Services.AddSwaggerGen(c =>
+builder.Services.AddSwaggerGen(options =>
 {
-    c.CustomSchemaIds(type => type.ToString());
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API V1", Version = "v1" });
-    c.SwaggerDoc("v2", new OpenApiInfo { Title = "My API V2", Version = "v2" });
-    c.SwaggerDoc("v3", new OpenApiInfo { Title = "My API V3", Version = "v3" });
-    c.SwaggerDoc("v4", new OpenApiInfo { Title = "My API V4", Version = "v4" });
+    options.CustomSchemaIds(type => type.ToString());
+    options.SwaggerDoc("v1", new OpenApiInfo { Title = "My API V1", Version = "v1" });
+    options.SwaggerDoc("v2", new OpenApiInfo { Title = "My API V2", Version = "v2" });
+    options.SwaggerDoc("v3", new OpenApiInfo { Title = "My API V3", Version = "v3" });
+    options.SwaggerDoc("v4", new OpenApiInfo { Title = "My API V4", Version = "v4" });
+
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Input your token here: Bearer {your_token}"
+    });
+
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });
+});
+var Configuration = builder.Configuration;
+
+
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenLocalhost(4000, options => { options.Protocols = Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols.Http2; options.UseHttps(); });
+    options.ListenLocalhost(5000, options => { options.Protocols = Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols.Http1AndHttp2; options.UseHttps(); });
+});
+builder.Services.AddAuthorization();
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = Configuration["Jwt:Issuer"],
+        ValidAudience = Configuration["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+    };
+});
+
+builder.Services.AddLogging(loggingBuilder =>
+{
+    loggingBuilder.ClearProviders();
+    loggingBuilder.AddConsole();
 });
 
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 builder.Services.AddDbContext<ExampleDbContext>(options =>
 {
+
     options.UseSqlServer(builder.Configuration.GetConnectionString("ExampleDbContext"));
-    options.LogTo(Console.WriteLine, LogLevel.Information);
+    options.LogTo((queryString) =>
+    {
+        System.Diagnostics.Debug.WriteLine(queryString);
+    });
 });
-  
+
 
 Log.Logger = new LoggerConfiguration()
             .WriteTo.File("/log/log-.txt", rollingInterval: RollingInterval.Day)
-
             .CreateLogger();
-builder.Services.AddLogging(loggingBuilder =>
+
+builder.Services.AddDbContext<StackOverflowDBContext>((serviceProvider, options) =>
 {
-    loggingBuilder.ClearProviders();
-    loggingBuilder.AddConsole();
+    options.UseSqlServer(builder.Configuration.GetConnectionString("StackOverflowDBContext"));
+    options.LogTo(Console.WriteLine, LogLevel.Information);
 });
-System.Diagnostics.Debug.WriteLine("Run only one!!");
-
-
-builder.Services.AddDbContext<StackOverflowDBContext>(options =>
-    options
-          .UseSqlServer(builder.Configuration.GetConnectionString("StackOverflowDBContext"))
-          .LogTo(Console.WriteLine, LogLevel.Information)
-  );
 
 
 builder.Services.AddGrpc();
+builder.Services.AddGrpcReflection();
 builder.Services.AddDbContext<SecondDbContext>(options =>
   options.UseSqlServer(builder.Configuration.GetConnectionString("SecondDbContext")),
   ServiceLifetime.Scoped
@@ -79,6 +140,8 @@ builder.Services.AddCors(o => o.AddPolicy("AllowAll", builder =>
 }));
 
 builder.Services.AddSignalR();
+//builder.Services.AddScoped<IConfigurationManager, ConfigurationManager>(); 
+builder.Services.AddScoped<IJsonWebTokenService, JsonWebTokenService>();
 builder.Services.AddScoped<IUnitOfWork<ExampleDbContext>, UnitOfWork<ExampleDbContext>>();
 builder.Services.AddScoped<IUnitOfWork<SecondDbContext>, UnitOfWork<SecondDbContext>>();
 builder.Services.AddScoped<IUnitOfWork<StackOverflowDBContext>, UnitOfWork<StackOverflowDBContext>>();
@@ -115,25 +178,32 @@ if (app.Environment.IsDevelopment())
         c.SwaggerEndpoint("/swagger/v3/swagger.json", "My API V3");
         c.SwaggerEndpoint("/swagger/v4/swagger.json", "My API V4");
     });
+
+    //app.MapGrpcReflectionService().AllowAnonymous();
 }
 
 app.UseExceptionHandler();
-app.UseCors("AllowAll");
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
-app.UseAuthorization();
 app.MapHub<ChatHub>("/chathub");
-app.Use(async (context, next) =>
-{
-    context.Response.Headers.Append("Content-Type", "application/grpc-web-text");
-    await next();
-});
+
 app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
 app.UseGrpcWeb(new GrpcWebOptions { DefaultEnabled = true });
 app.MapGrpcService<GreeterService>().EnableGrpcWeb()
                                     .RequireCors("AllowAll");
 
 app.MapGrpcService<EmployeeService>().EnableGrpcWeb();
+app.MapGrpcService<UserService>().EnableGrpcWeb();
+
+app.UseCors("AllowAll");
+
+if (app.Environment.IsDevelopment())
+{
+    app.MapGrpcReflectionService().AllowAnonymous();
+}
+
 app.MapControllers();
 
 app.Run();

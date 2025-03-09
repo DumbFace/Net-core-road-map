@@ -1,0 +1,19 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "GrpcBadge";
+
+package badge;
+import "google/protobuf/wrappers.proto"; 
+import "google/protobuf/timestamp.proto";
+
+service GrpcServiceBadge {
+}
+
+message Empty {}
+
+
+message BadgeModel {
+	  google.protobuf.StringValue Name = 1;
+	  int32 UserId = 9;	 
+      google.protobuf.Timestamp Date = 3;
+}

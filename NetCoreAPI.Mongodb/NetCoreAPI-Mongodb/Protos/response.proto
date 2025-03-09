@@ -1,0 +1,24 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "GrpcResponse";
+
+package response;
+import "google/protobuf/any.proto";
+import "google/protobuf/wrappers.proto";
+
+service GrpcResponseService
+{
+}
+
+enum Status {
+	Default = 0;
+	Success = 1;
+	Fail = 2;
+	Error = 3;
+}
+
+message GrpcResponseModel {
+	    google.protobuf.Any Data = 1;
+		google.protobuf.StringValue StatusAsEnum = 2;
+	    Status Status = 3;
+}

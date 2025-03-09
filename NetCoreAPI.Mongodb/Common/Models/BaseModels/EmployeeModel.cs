@@ -1,4 +1,5 @@
 ﻿using Infrastucture.Domain.Enum;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Common.Models.BaseModels
 {
@@ -20,6 +21,7 @@ namespace Common.Models.BaseModels
 
         public DateTime? CreatedTime { get; set; }
 
+        [NotMapped]
         public IEnumerable<ProjectModel> Projects { get; set; }
     }
 }

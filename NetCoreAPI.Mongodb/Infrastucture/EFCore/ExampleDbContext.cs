@@ -2,7 +2,6 @@
 using Infrastucture.Domain.EFCore.Entites;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
-
 namespace Infrastucture.EFCore
 {
     public class ExampleDbContext : DbContext
@@ -20,13 +19,13 @@ namespace Infrastucture.EFCore
         public DbSet<EmployeeProject> EmployeeProjects { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
-            {
-                if (typeof(BaseEntity).IsAssignableFrom(entityType.ClrType))
-                {
-                    SetSoftDeleteFilter(modelBuilder, entityType.ClrType);
-                }
-            }
+            //foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            //{
+            //    if (typeof(BaseEntity).IsAssignableFrom(entityType.ClrType))
+            //    {
+            //        SetSoftDeleteFilter(modelBuilder, entityType.ClrType);
+            //    }
+            //}
         }
 
         private static void SetSoftDeleteFilter(ModelBuilder modelBuilder, Type entityType)
