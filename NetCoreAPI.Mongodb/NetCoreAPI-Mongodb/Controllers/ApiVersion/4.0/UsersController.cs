@@ -26,7 +26,7 @@ namespace NetCoreAPI_Mongodb.Controllers.ApiVersion.v4
 
         // GET: api/Users
         [HttpGet]
-        [CustomAuthorize([UserPermissionsEnum.READ])]
+        //[CustomAuthorize([UserPermissionsEnum.READ])]
         //public async Task<ApiResponseModel<IEnumerable<GetUserRequestModel>>> GetUsers()
         public async Task<IActionResult> GetUsers()
         {

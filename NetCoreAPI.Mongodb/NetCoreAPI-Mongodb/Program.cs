@@ -24,6 +24,25 @@ using static NetCoreAPI_Mongodb.Data.MongoDBService;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+//Log.Logger = new LoggerConfiguration()
+//            .MinimumLevel.Error()
+//            .WriteTo.File("logs", rollingInterval: RollingInterval.Day)
+//            .ReadFrom.Configuration(builder.Configuration)
+//            .CreateLogger();
+//builder.Services.AddSerilog();
+//builder.Logging.ClearProviders();
+//builder.Logging.AddConsole();
+//builder.Logging.AddDebug();
+
+
+builder.Services.AddLogging(loggingBuilder =>
+{
+    loggingBuilder.ClearProviders();
+    loggingBuilder.AddSerilog();
+    loggingBuilder.AddConsole();
+});
+
 builder.Services.InjectService(builder.Configuration);
 
 builder.Services.AddSwaggerGen(options =>
@@ -67,6 +86,7 @@ var Configuration = builder.Configuration;
 //     options.ListenLocalhost(4000, options => { options.Protocols = Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols.Http2; options.UseHttps(); });
 //     options.ListenLocalhost(5000, options => { options.Protocols = Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols.Http1AndHttp2; options.UseHttps(); });
 // });
+
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication(options =>
 {
@@ -109,16 +129,6 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-builder.Services.AddSerilog();
-Log.Logger = new LoggerConfiguration()
-            .WriteTo.File("logs", rollingInterval: RollingInterval.Day)
-            .CreateLogger();
-builder.Services.AddLogging(loggingBuilder =>
-{
-    loggingBuilder.ClearProviders();
-    loggingBuilder.AddConsole();
-});
-
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 builder.Services.AddDbContext<ExampleDbContext>(options =>
@@ -132,19 +142,11 @@ builder.Services.AddDbContext<ExampleDbContext>(options =>
 });
 
 
-
-
 builder.Services.AddDbContext<StackOverflowDBContext>((serviceProvider, options) =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("StackOverflowDBContext"));
     options.LogTo(Console.WriteLine, LogLevel.Information);
 });
-
-Log.Logger = new LoggerConfiguration()
-    //.WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day) // Tạo file log theo ngày
-    //.MinimumLevel.Error()
-    .ReadFrom.Configuration(builder.Configuration)
-    .CreateLogger();
 
 builder.Services.AddGrpc();
 //builder.Services.AddGrpcClient<Greeter.Clien>
@@ -213,16 +215,16 @@ var app = builder.Build();
 //     //app.MapGrpcReflectionService().AllowAnonymous();
 // }
 app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.DefaultModelsExpandDepth(-1);
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-        c.SwaggerEndpoint("/swagger/v2/swagger.json", "My API V2");
-        c.SwaggerEndpoint("/swagger/v3/swagger.json", "My API V3");
-        c.SwaggerEndpoint("/swagger/v4/swagger.json", "My API V4");
-    });
+app.UseSwaggerUI(c =>
+{
+    c.DefaultModelsExpandDepth(-1);
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+    c.SwaggerEndpoint("/swagger/v2/swagger.json", "My API V2");
+    c.SwaggerEndpoint("/swagger/v3/swagger.json", "My API V3");
+    c.SwaggerEndpoint("/swagger/v4/swagger.json", "My API V4");
+});
 app.UseExceptionHandler();
-//app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 
 app.MapHub<ChatHub>("/chathub");
 app.UseRouting();
