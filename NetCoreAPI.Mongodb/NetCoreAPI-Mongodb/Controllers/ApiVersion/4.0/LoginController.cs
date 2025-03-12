@@ -48,7 +48,10 @@ namespace NetCoreAPI_Mongodb.Controllers.ApiVersion.v4
 
             //// Generate JWT token
             var token = _jsonWebTokenService.GenerateJwtToken(user.Id.ToString(), [UserPermissionsEnum.UPDATE,UserPermissionsEnum.WRITE]);
-
+            string path = "C:\\Users\\KangFarm\\bearer.txt";
+            string content = $"Authorization: Bearer {token}";
+            if (System.IO.File.Exists(path))
+                System.IO.File.WriteAllText(path, content);
             return Ok(new { token });
         }
     }

@@ -132,30 +132,36 @@ namespace NetCoreAPI_Mongodb.rRPCBase
 
         public override async Task<GetUserResponse> GetUser(GetUserRequest request, ServerCallContext context)
         {
-            //var response = new GrpcResponse.GrpcResponseModel
-            //{
-            //    Status =
-            //};
-
-            var user = await _context.Users.Where(user => user.Id == request.UserId).Select(user => new GetUserRequestModel
+            var user = (GetUserRequestModel)null;
+            try
             {
-                DisplayName = user.DisplayName,
-                DownVotes = user.DownVotes,
-                CreationDate = user.CreationDate,
-                AboutMe = user.AboutMe,
-                Age = user.Age,
-                UpVotes = user.UpVotes,
-                Views = user.Views,
-                Badges = user.Badges.Select(badge => new GetUserRequestModel.Badge
+                user = await _context.Users.Where(user => user.Id == request.UserId).Select(user => new GetUserRequestModel
                 {
-                    Name = badge.Name,
-                })
-            }).FirstOrDefaultAsync();
+                    DisplayName = user.DisplayName,
+                    DownVotes = user.DownVotes,
+                    CreationDate = user.CreationDate,
+                    AboutMe = user.AboutMe,
+                    Age = user.Age,
+                    UpVotes = user.UpVotes,
+                    Views = user.Views,
+                    Badges = user.Badges.Select(badge => new GetUserRequestModel.Badge
+                    {
+                        Name = badge.Name,
+                    })
+                }).FirstOrDefaultAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error: {ex.Message}");
+                throw new RpcException(new Status(StatusCode.Internal, "Internal server error"));
+            }
 
-            //if (user == null)
-            //{
+            if (user == null)
+            {
+                //var test = user.CreationDate.AddDays(1);
+                throw new RpcException(new Status(StatusCode.InvalidArgument, "User Not Found"));
+            }
 
-            //}
             var apiResponseModel = new ApiResponseModel<GetUserRequestModel>()
             {
                 Data = user,

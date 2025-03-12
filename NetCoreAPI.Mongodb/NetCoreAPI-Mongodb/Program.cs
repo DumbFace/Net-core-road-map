@@ -1,4 +1,5 @@
 ﻿using Common.Common.MapperProfile;
+using GrpcGreeter;
 using Infrastucture.AspnetCoreApi.Services.Interface;
 using Infrastucture.AspnetCoreApi.Services.Services;
 using Infrastucture.Domain.EFCore.Entites;
@@ -11,12 +12,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using NetCoreAPI_Mongodb.AuthorizeFilter;
 using NetCoreAPI_Mongodb.Data;
 using NetCoreAPI_Mongodb.rRPCBase;
 using NetCoreAPI_Mongodb.SignalRHub;
 using NetCoreAPI_Mongodb.TempService;
 using Serilog;
 using System.Text;
+using Test.HandleException;
 using static NetCoreAPI_Mongodb.Data.MongoDBService;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -59,11 +62,11 @@ builder.Services.AddSwaggerGen(options =>
 var Configuration = builder.Configuration;
 
 
-builder.WebHost.ConfigureKestrel(options =>
-{
-    options.ListenLocalhost(4000, options => { options.Protocols = Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols.Http2; options.UseHttps(); });
-    options.ListenLocalhost(5000, options => { options.Protocols = Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols.Http1AndHttp2; options.UseHttps(); });
-});
+// builder.WebHost.ConfigureKestrel(options =>
+// {
+//     options.ListenLocalhost(4000, options => { options.Protocols = Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols.Http2; options.UseHttps(); });
+//     options.ListenLocalhost(5000, options => { options.Protocols = Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols.Http1AndHttp2; options.UseHttps(); });
+// });
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication(options =>
 {
@@ -73,6 +76,7 @@ builder.Services.AddAuthentication(options =>
 })
 .AddJwtBearer(options =>
 {
+
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
@@ -83,8 +87,32 @@ builder.Services.AddAuthentication(options =>
         ValidAudience = Configuration["Jwt:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
     };
+
+    options.UseSecurityTokenValidators = true;
+    options.SecurityTokenValidators.Clear();
+    options.SecurityTokenValidators.Add(new CustomJwtSecurityTokenHandler());
+
+    options.Events = new JwtBearerEvents
+    {
+        OnTokenValidated = context =>
+        {
+            var userPrincipal = context.Principal;
+            return Task.CompletedTask;
+        },
+        OnChallenge = context =>
+        {
+            context.HandleResponse(); 
+            context.Response.StatusCode = 401;
+            context.Response.ContentType = "application/json";
+            return context.Response.WriteAsync("{\"error\": \"Unauthorized\"}");
+        }
+    };
 });
 
+builder.Services.AddSerilog();
+Log.Logger = new LoggerConfiguration()
+            .WriteTo.File("logs", rollingInterval: RollingInterval.Day)
+            .CreateLogger();
 builder.Services.AddLogging(loggingBuilder =>
 {
     loggingBuilder.ClearProviders();
@@ -104,9 +132,7 @@ builder.Services.AddDbContext<ExampleDbContext>(options =>
 });
 
 
-Log.Logger = new LoggerConfiguration()
-            .WriteTo.File("/log/log-.txt", rollingInterval: RollingInterval.Day)
-            .CreateLogger();
+
 
 builder.Services.AddDbContext<StackOverflowDBContext>((serviceProvider, options) =>
 {
@@ -114,8 +140,14 @@ builder.Services.AddDbContext<StackOverflowDBContext>((serviceProvider, options)
     options.LogTo(Console.WriteLine, LogLevel.Information);
 });
 
+Log.Logger = new LoggerConfiguration()
+    //.WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day) // Tạo file log theo ngày
+    //.MinimumLevel.Error()
+    .ReadFrom.Configuration(builder.Configuration)
+    .CreateLogger();
 
 builder.Services.AddGrpc();
+//builder.Services.AddGrpcClient<Greeter.Clien>
 builder.Services.AddGrpcReflection();
 builder.Services.AddDbContext<SecondDbContext>(options =>
   options.UseSqlServer(builder.Configuration.GetConnectionString("SecondDbContext")),
@@ -152,7 +184,6 @@ builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
 builder.Services.AddScoped<IRepository<Employee, ExampleDbContext>, Repository<Employee, ExampleDbContext>>();
 
-
 builder.Services.Configure<MongoDBDatabaseSettings>(
     builder.Configuration.GetSection("MongoDB"));
 
@@ -167,9 +198,21 @@ var app = builder.Build();
 //             .RequireCors("AllowAll");
 //});
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
+// if (app.Environment.IsDevelopment())
+// {
+//     app.UseSwagger();
+//     app.UseSwaggerUI(c =>
+//     {
+//         c.DefaultModelsExpandDepth(-1);
+//         c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+//         c.SwaggerEndpoint("/swagger/v2/swagger.json", "My API V2");
+//         c.SwaggerEndpoint("/swagger/v3/swagger.json", "My API V3");
+//         c.SwaggerEndpoint("/swagger/v4/swagger.json", "My API V4");
+//     });
+
+//     //app.MapGrpcReflectionService().AllowAnonymous();
+// }
+app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
         c.DefaultModelsExpandDepth(-1);
@@ -178,15 +221,10 @@ if (app.Environment.IsDevelopment())
         c.SwaggerEndpoint("/swagger/v3/swagger.json", "My API V3");
         c.SwaggerEndpoint("/swagger/v4/swagger.json", "My API V4");
     });
-
-    //app.MapGrpcReflectionService().AllowAnonymous();
-}
-
 app.UseExceptionHandler();
 //app.UseHttpsRedirection();
 
 app.MapHub<ChatHub>("/chathub");
-
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();

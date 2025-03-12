@@ -2,34 +2,48 @@
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
-internal sealed class GlobalExceptionHandler : IExceptionHandler
+
+namespace Test.HandleException
 {
-    private readonly ILogger<GlobalExceptionHandler> _logger;
 
-    public GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger)
+    internal sealed class GlobalExceptionHandler : IExceptionHandler
     {
-        _logger = logger;
-    }
+        private readonly ILogger<GlobalExceptionHandler> _logger;
 
-    public async ValueTask<bool> TryHandleAsync(
-        HttpContext httpContext,
-        Exception exception,
-        CancellationToken cancellationToken)
-    {
-        _logger.LogError(
-            exception, "Exception occurred: {Message}", exception.Message);
-        Log.Logger.Error($"{exception.Message}");
-        var problemDetails = new ProblemDetails
+        public GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger)
         {
-            Status = StatusCodes.Status500InternalServerError,
-            Title = "Server error"
-        };
+            _logger = logger;
+        }
 
-        httpContext.Response.StatusCode = problemDetails.Status.Value;
+        public async ValueTask<bool> TryHandleAsync(
+            HttpContext httpContext,
+            Exception exception,
+            CancellationToken cancellationToken)
+        {
+            string[] exceptionAsStrings = ["Null", "Sql"];
 
-        await httpContext.Response
-            .WriteAsJsonAsync(exception.Message, cancellationToken);
+            _logger.LogError(
+                exception, "Exception occurred: {Message}", exception.Message);
 
-        return true;
+
+            if (exceptionAsStrings.Any(exceptionAsString => exception.GetType().ToString().Contains(exceptionAsString)))
+            {
+
+                _logger.LogInformation("---------------------------Write Log FIle");
+                Log.Error($"------Type Exception {exception.GetType().ToString()}: {exception.Message}");
+            }
+            var problemDetails = new ProblemDetails
+            {
+                Status = StatusCodes.Status500InternalServerError,
+                Title = "Server error"
+            };
+
+            httpContext.Response.StatusCode = problemDetails.Status.Value;
+
+            await httpContext.Response
+                .WriteAsJsonAsync(exception.Message, cancellationToken);
+
+            return true;
+        }
     }
 }

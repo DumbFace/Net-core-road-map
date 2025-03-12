@@ -1,10 +1,13 @@
 ﻿using Common.Enum;
+using Domain.EFCore.Entites;
 using Infrastucture.EFCore;
 using MediatR;
 using MediatR.AspnetCoreAPI.UsersHandler.Queries;
 using Microsoft.AspNetCore.Mvc;
 using NetCoreAPI_Mongodb.AuthorizeFilter;
 using NetCoreAPI_Mongodb.Controllers.BaseController;
+using Serilog;
+using System.Reflection.Metadata.Ecma335;
 
 namespace NetCoreAPI_Mongodb.Controllers.ApiVersion.v4
 {
@@ -31,19 +34,21 @@ namespace NetCoreAPI_Mongodb.Controllers.ApiVersion.v4
             return Ok(response);
         }
 
-        //// GET: api/Users/5
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<User>> GetUser(int id)
-        //{
-        //    var user = await _context.Users.FindAsync(id);
+        // GET: api/Users/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<User>> GetUser(int id)
+        {
+            //ExceptionRegionEncoder.
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
+            {
+                throw new ArgumentException("User not found");
+            }
+            //var test = user.Badges.FirstOrDefault();
 
-        //    if (user == null)
-        //    {
-        //        return NotFound();
-        //    }
 
-        //    return user;
-        //}
+            return Ok();
+        }
 
         //// PUT: api/Users/5
         //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754

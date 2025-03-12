@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Security.Claims;
 using System.Text;
 
@@ -59,6 +60,13 @@ namespace Infrastucture.AspnetCoreApi.Services.Services
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
+            
+            //string path = "C:\\Users\\KangFarm\\bearer.txt";
+            //string content = $"Authorization: Bearer {token}";
+            //if (File.Exists(path))
+            //    File.WriteAllText(path, content);
+
+
             return tokenHandler.WriteToken(token);
         }
 
