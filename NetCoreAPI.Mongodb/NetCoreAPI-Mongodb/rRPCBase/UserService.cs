@@ -1,5 +1,5 @@
-﻿using Common.Enum;
-using Common.Models.BaseModels;
+﻿using Common.Models.BaseModels;
+using Domain.Enum;
 using Grpc.Core;
 using GrpcUser;
 using HandlerRequest.AspnetCoreAPI.UsersHandler.UsersHandlerModel;

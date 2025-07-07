@@ -1,5 +1,5 @@
-﻿using Common.Enum;
-using Common.Interface;
+﻿using Common.Interface;
+using Domain.Enum;
 using System.Text.Json.Serialization;
 
 namespace Common.Models.BaseModels

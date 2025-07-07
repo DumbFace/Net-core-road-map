@@ -1,12 +1,11 @@
-﻿using Common.Enum;
+﻿using Application.DTOs;
+using Application.Interfaces;
 using Common.Models.BaseModels;
-using Infrastucture.AspnetCoreApi.Services.Interface;
+using Domain.Enum;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NetCoreAPI_Mongodb.AuthorizeFilter;
 using NetCoreAPI_Mongodb.Controllers.BaseController;
-using Newtonsoft.Json;
 
 namespace NetCoreAPI_Mongodb.Controllers.ApiVersion.v4
 {
@@ -28,13 +27,13 @@ namespace NetCoreAPI_Mongodb.Controllers.ApiVersion.v4
         public IActionResult Login([FromBody] LoginModel login)
         {
 
-            //LoginModel login = new LoginModel
-            //{
-            //    UserName = username,
-            //    Password = password
-            //};
+            LoginDto loginDTO = new LoginDto
+            {
+                UserName = login.UserName,
+                //Password = login.Pas
+            };
             // Authenticate user
-            var user = _jsonWebTokenService.GetLoginAccount(login);
+            var user = _jsonWebTokenService.GetLoginAccount(loginDTO);
 
             if (user == null)
                 return Unauthorized();
@@ -47,7 +46,7 @@ namespace NetCoreAPI_Mongodb.Controllers.ApiVersion.v4
 
 
             //// Generate JWT token
-            var token = _jsonWebTokenService.GenerateJwtToken(user.Id.ToString(), [UserPermissionsEnum.UPDATE,UserPermissionsEnum.WRITE]);
+            var token = _jsonWebTokenService.GenerateJwtToken(user.Id.ToString(), [UserPermissionsEnum.UPDATE, UserPermissionsEnum.WRITE]);
             string path = "C:\\Users\\KangFarm\\bearer.txt";
             string content = $"Authorization: Bearer {token}";
             if (System.IO.File.Exists(path))

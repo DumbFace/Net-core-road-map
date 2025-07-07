@@ -1,5 +1,5 @@
-﻿using Common.Enum;
-using Domain.EFCore.Entites;
+﻿using Domain.EFCore.Entites;
+using Domain.Enum;
 using Infrastucture.EFCore;
 using MediatR;
 using MediatR.AspnetCoreAPI.UsersHandler.Queries;

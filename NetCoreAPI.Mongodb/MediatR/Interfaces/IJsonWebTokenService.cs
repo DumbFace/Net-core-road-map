@@ -1,16 +1,14 @@
-﻿
-
-using Common.Enum;
+﻿using Application.DTOs;
 using Common.Models.BaseModels;
+using Domain.Enum;
 
-namespace Infrastucture.AspnetCoreApi.Services.Interface
+namespace Application.Interfaces
 {
     public interface IJsonWebTokenService
     {
         string GenerateJwtToken(string userId, params UserPermissionsEnum[] perrmisionsASString);
 
-
-        UserModel GetLoginAccount(LoginModel login);
+        UserModel GetLoginAccount(LoginDto login);
 
         UserPermissionsEnum[] GetPermissionExample { get; }
     }

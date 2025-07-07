@@ -13,16 +13,6 @@ namespace NetCoreAPI_Mongodb.TempService
             _hubContext = hubContext;
         }
 
-        //public ChatHubService(IHubContext<ChatHub> hubContext)
-        //{
-        //    _hubContext = hubContext;
-        //}
-
-        //public async Task AddToGroup(string groupName)
-        //{
-        //    await _hubContext.Groups.AddToGroupAsync(Context.ConnectionId, groupName);
-        //}
-
         public async Task SendNotifyToGroup(string groupName, string message)
         {
             await _hubContext.Clients.Group(groupName).SendAsync("ReceiveNotify", message);

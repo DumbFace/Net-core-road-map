@@ -1,16 +1,15 @@
-﻿using Common.Models.BaseModels;
-using DnsClient.Internal;
+﻿using Application.DTOs;
+using Application.Interfaces;
+using Common.Models.BaseModels;
 using Domain.Enum;
-using Infrastucture.AspnetCoreApi.Services.Interface;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using System.IO;
 using System.Security.Claims;
 using System.Text;
 
-namespace Infrastucture.AspnetCoreApi.Services.Services
+namespace Application.Services
 {
     public class JsonWebTokenService : IJsonWebTokenService
     {
@@ -38,15 +37,14 @@ namespace Infrastucture.AspnetCoreApi.Services.Services
 
             var key = Encoding.ASCII.GetBytes(_configurationManager["Jwt:Key"]);
 
-            //var claims = new Dictionary<string, object>();
-            var listPermissionAsInt = new List<int>();  
+            var listPermissionAsInt = new List<int>();
             foreach (var permission in userPermissionsAsEnums)
             {
                 listPermissionAsInt.Add((int)permission);
             }
             var claims = new Dictionary<string, object>
             {
-                { "Permissions",listPermissionAsInt } 
+                { "Permissions",listPermissionAsInt }
             };
             _logger.LogInformation($"----------Key {key}");
 
@@ -60,17 +58,11 @@ namespace Infrastucture.AspnetCoreApi.Services.Services
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            
-            //string path = "C:\\Users\\KangFarm\\bearer.txt";
-            //string content = $"Authorization: Bearer {token}";
-            //if (File.Exists(path))
-            //    File.WriteAllText(path, content);
-
 
             return tokenHandler.WriteToken(token);
         }
 
-        public UserModel GetLoginAccount(LoginModel login)
+        public UserModel GetLoginAccount(LoginDto login)
         {
             if (login is not null)
             {
@@ -81,6 +73,5 @@ namespace Infrastucture.AspnetCoreApi.Services.Services
             }
             return null;
         }
-
     }
 }
