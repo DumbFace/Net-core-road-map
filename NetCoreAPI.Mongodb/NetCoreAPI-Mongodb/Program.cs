@@ -1,7 +1,6 @@
 ﻿using Application.Interfaces;
 using Application.Services;
 using Common.Common.MapperProfile;
-using GrpcGreeter;
 using Infrastucture.Domain.EFCore.Entites;
 using Infrastucture.EFCore;
 using Infrastucture.Repository.Base;
@@ -24,18 +23,6 @@ using static NetCoreAPI_Mongodb.Data.MongoDBService;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
-//Log.Logger = new LoggerConfiguration()
-//            .MinimumLevel.Error()
-//            .WriteTo.File("logs", rollingInterval: RollingInterval.Day)
-//            .ReadFrom.Configuration(builder.Configuration)
-//            .CreateLogger();
-//builder.Services.AddSerilog();
-//builder.Logging.ClearProviders();
-//builder.Logging.AddConsole();
-//builder.Logging.AddDebug();
-
-
 builder.Services.AddLogging(loggingBuilder =>
 {
     loggingBuilder.ClearProviders();
@@ -52,6 +39,7 @@ builder.Services.AddSwaggerGen(options =>
     options.SwaggerDoc("v2", new OpenApiInfo { Title = "My API V2", Version = "v2" });
     options.SwaggerDoc("v3", new OpenApiInfo { Title = "My API V3", Version = "v3" });
     options.SwaggerDoc("v4", new OpenApiInfo { Title = "My API V4", Version = "v4" });
+    options.SwaggerDoc("v5", new OpenApiInfo { Title = "My API V5", Version = "v5" });
 
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
@@ -121,7 +109,7 @@ builder.Services.AddAuthentication(options =>
         },
         OnChallenge = context =>
         {
-            context.HandleResponse(); 
+            context.HandleResponse();
             context.Response.StatusCode = 401;
             context.Response.ContentType = "application/json";
             return context.Response.WriteAsync("{\"error\": \"Unauthorized\"}");
@@ -222,6 +210,8 @@ app.UseSwaggerUI(c =>
     c.SwaggerEndpoint("/swagger/v2/swagger.json", "My API V2");
     c.SwaggerEndpoint("/swagger/v3/swagger.json", "My API V3");
     c.SwaggerEndpoint("/swagger/v4/swagger.json", "My API V4");
+    c.SwaggerEndpoint("/swagger/v5/swagger.json", "My API V5");
+
 });
 app.UseExceptionHandler();
 app.UseHttpsRedirection();
@@ -232,7 +222,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseGrpcWeb(new GrpcWebOptions { DefaultEnabled = true });
 app.MapGrpcService<GreeterService>().EnableGrpcWeb()
-                                    .MapToApiVersion(1)
                                     .RequireCors("AllowAll");
 
 app.MapGrpcService<EmployeeService>().EnableGrpcWeb();

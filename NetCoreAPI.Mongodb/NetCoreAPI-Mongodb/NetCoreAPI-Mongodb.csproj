@@ -69,4 +69,8 @@
     <ProjectReference Include="..\MediatR\Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\ApiVersion\5.0\" />
+  </ItemGroup>
+
 </Project>
