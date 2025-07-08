@@ -6,6 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Enum\**" />
+    <EmbeddedResource Remove="Enum\**" />
+    <None Remove="Enum\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="MediatR" Version="12.4.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />

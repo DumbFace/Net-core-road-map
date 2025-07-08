@@ -1,4 +1,4 @@
-﻿using Infrastucture.Domain.Enum;
+﻿using Domain.Enum;
 using System.Text.Json.Serialization;
 
 namespace Common.Models.BaseModels

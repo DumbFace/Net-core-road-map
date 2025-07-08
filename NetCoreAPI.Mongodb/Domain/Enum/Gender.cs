@@ -1,5 +1,4 @@
-﻿
-namespace Infrastucture.Domain.Enum
+﻿namespace Domain.Enum
 {
     public enum Gender
     {

@@ -1,4 +1,4 @@
-﻿using Infrastucture.Domain.Enum;
+﻿using Domain.Enum;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Common.Models.BaseModels

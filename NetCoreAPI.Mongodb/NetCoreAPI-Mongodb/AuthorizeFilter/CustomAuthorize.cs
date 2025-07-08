@@ -1,13 +1,8 @@
-﻿using Common.Enum;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Domain.Enum;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Newtonsoft.Json.Linq;
 using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 
 namespace NetCoreAPI_Mongodb.AuthorizeFilter
 {

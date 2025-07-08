@@ -1,5 +1,5 @@
-﻿using Infrastucture.Domain.EFCore.Entites;
-using Infrastucture.Domain.Enum;
+﻿using Domain.Enum;
+using Infrastucture.Domain.EFCore.Entites;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 

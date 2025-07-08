@@ -1,7 +1,7 @@
-﻿using Common.Common.MapperProfile;
+﻿using Application.Interfaces;
+using Application.Services;
+using Common.Common.MapperProfile;
 using GrpcGreeter;
-using Infrastucture.AspnetCoreApi.Services.Interface;
-using Infrastucture.AspnetCoreApi.Services.Services;
 using Infrastucture.Domain.EFCore.Entites;
 using Infrastucture.EFCore;
 using Infrastucture.Repository.Base;
@@ -232,6 +232,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseGrpcWeb(new GrpcWebOptions { DefaultEnabled = true });
 app.MapGrpcService<GreeterService>().EnableGrpcWeb()
+                                    .MapToApiVersion(1)
                                     .RequireCors("AllowAll");
 
 app.MapGrpcService<EmployeeService>().EnableGrpcWeb();

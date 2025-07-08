@@ -66,8 +66,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj" />
     <ProjectReference Include="..\Infrastucture\Infrastucture.csproj" />
-    <ProjectReference Include="..\MediatR\HandlerRequest.csproj" />
-    <ProjectReference Include="..\Services\AspnetCoreApi.Services.csproj" />
+    <ProjectReference Include="..\MediatR\Application.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-﻿using Common.Enum;
+﻿using Domain.Enum;
 
 namespace Common.Interface
 {
